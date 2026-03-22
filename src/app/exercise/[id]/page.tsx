@@ -60,10 +60,9 @@ export default function ExercisePage() {
           <div className="text-grad" style={{ fontSize: '3.5rem', fontWeight: 800, marginBottom: '1rem' }}>
             {sessionScore}/{exercise.questions.length}
           </div>
-          <p style={{ color: 'var(--success)', fontWeight: 700, marginBottom: '3rem' }}>+ 50 XP Earned</p>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <Link href="/dashboard" style={{ flex: 1 }}>
-              <AppButton variant="outline" style={{ width: '100%' }}>Back to Dashboard</AppButton>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <Link href="/learn" style={{ flex: 1 }}>
+              <AppButton variant="outline" style={{ width: '100%' }}>Back to Library</AppButton>
             </Link>
             <AppButton onClick={() => window.location.reload()} style={{ flex: 1 }}>Practice Again</AppButton>
           </div>
@@ -75,7 +74,7 @@ export default function ExercisePage() {
   return (
     <div className="container animate-fade-in" style={{ maxWidth: '800px', marginTop: '2rem' }}>
       <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/dashboard" style={{ color: 'var(--text-muted)', fontWeight: 500 }}>← Back</Link>
+        <Link href="/learn" style={{ color: 'var(--text-muted)', fontWeight: 500 }}>← Back to Library</Link>
         <span style={{ fontWeight: 600 }}>{exercise.title}</span>
         <span style={{ color: 'var(--text-muted)' }}>{currentIndex + 1} / {exercise.questions.length}</span>
       </div>

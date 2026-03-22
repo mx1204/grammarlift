@@ -45,8 +45,8 @@ export default function QuizPage() {
           <p style={{ marginBottom: '3rem', color: 'var(--text-muted)' }}>
             You scored {score} out of {quizQuestions.length}. Based on your performance, we&apos;ve unlocked the <b>{level} curriculum</b> for you.
           </p>
-          <Link href="/dashboard">
-            <AppButton size="lg" style={{ width: '100%' }}>Go to Dashboard</AppButton>
+          <Link href="/learn">
+            <AppButton size="lg" style={{ width: '100%' }}>Explore the Library</AppButton>
           </Link>
         </GlassCard>
       </div>

@@ -44,10 +44,10 @@ export default function Home() {
           </GlassCard>
           
           <GlassCard hover>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📈</div>
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Habit Building</h3>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📚</div>
+            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Comprehensive Library</h3>
             <p style={{ color: 'var(--text-muted)' }}>
-              Track your progress with streaks, mastery scores per topic, and personalized exercise recommendations.
+              Explore deep dives into grammar rules for every level. Practice on-the-spot with interactive questions that explain the logic.
             </p>
           </GlassCard>
         </div>

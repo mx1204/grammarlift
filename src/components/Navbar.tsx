@@ -26,9 +26,8 @@ const Navbar = () => {
         
         {/* Desktop Menu */}
         <div className="hide-on-mobile" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <Link href="/dashboard" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Dashboard</Link>
           <Link href="/scenarios" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
-          <Link href="/free-writing" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
+          <Link href="/learn" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
           <Link href="/pricing" style={{ textDecoration: 'none' }}>
             <AppButton size="sm">Go Pro</AppButton>
           </Link>
@@ -66,12 +65,11 @@ const Navbar = () => {
           gap: '1.5rem',
           borderTop: '1px solid var(--card-border)'
         }}>
-          <Link href="/dashboard" onClick={() => setIsOpen(false)} style={{ fontWeight: 600, fontSize: '1.2rem', textDecoration: 'none', color: 'inherit' }}>Dashboard</Link>
-          <Link href="/scenarios" onClick={() => setIsOpen(false)} style={{ fontWeight: 600, fontSize: '1.2rem', textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
-          <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontWeight: 600, fontSize: '1.2rem', textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
-          <Link href="/pricing" onClick={() => setIsOpen(false)} style={{ textDecoration: 'none' }}>
+            <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
+            <Link href="/scenarios" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
+            <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
+            <Link href="/pricing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Pricing</Link>
             <AppButton style={{ width: '100%' }}>Go Pro</AppButton>
-          </Link>
         </div>
       )}
 

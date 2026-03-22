@@ -14,7 +14,7 @@ const PricingPage = () => {
         'Level placement quiz',
         '10 exercises per month',
         'Basic AI feedback',
-        'Daily streaks & goals',
+        'Interactive grammar library',
       ],
       cta: 'Current Plan',
       variant: 'outline'
@@ -28,8 +28,8 @@ const PricingPage = () => {
         'Unlimited exercises',
         'Advanced AI with examples',
         'Full Free Writing Mode',
-        'Personalized error tracking',
-        'Exportable reports',
+        'Pedagogical rule explanations',
+        'High-priority AI processing',
       ],
       cta: 'Upgrade to Pro',
       variant: 'primary'
@@ -39,10 +39,10 @@ const PricingPage = () => {
       price: '$29',
       description: 'For language schools and corporate teams up to 10 seats.',
       features: [
-        'Admin dashboard',
-        'Team progress viewing',
-        'Custom exercises',
+        'Bulk seat licensing',
         'Priority support',
+        'Custom interactive exercises',
+        'Team-wide access',
         'Everything in Pro',
       ],
       cta: 'Contact Sales',
