@@ -1,0 +1,42 @@
+﻿
+C:\Users\mingx\Desktop\grammarlift\src\app\dashboard\page.tsx
+  34:76  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\mingx\Desktop\grammarlift\src\app\exercise\[id]\page.tsx
+  3:27  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\mingx\Desktop\grammarlift\src\app\free-writing\page.tsx
+  161:72  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  161:81  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  173:55  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  173:63  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\mingx\Desktop\grammarlift\src\app\pricing\page.tsx
+  111:138  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  122:49   error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\mingx\Desktop\grammarlift\src\app\quiz\page.tsx
+  36:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\mingx\Desktop\grammarlift\src\app\quiz\page.tsx:36:7
+  34 |   useEffect(() => {
+  35 |     if (isFinished) {
+> 36 |       setLevel(getResultLevel(score, quizQuestions.length));
+     |       ^^^^^^^^ Avoid calling setState() directly within an effect
+  37 |     }
+  38 |   }, [isFinished, score, quizQuestions.length]);
+  39 |  react-hooks/set-state-in-effect
+  38:6   warning  React Hook useEffect has an unnecessary dependency: 'quizQuestions.length'. Either exclude it or remove the dependency array. Outer scope values like 'quizQuestions.length' aren't valid dependencies because mutating them doesn't re-render the component                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+  53:92  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react/no-unescaped-entities
+
+C:\Users\mingx\Desktop\grammarlift\src\lib\exercise-data.ts
+  12:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 12 problems (10 errors, 2 warnings)
+
