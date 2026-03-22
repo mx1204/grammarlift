@@ -86,7 +86,7 @@ export default function TopicDetailPage() {
         <GlassCard className="grad-primary" style={{ textAlign: 'center', color: 'white', padding: '3rem' }}>
           <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Ready to practice?</h3>
           <p style={{ marginBottom: '2rem', opacity: 0.9 }}>Take a quick quiz to test your understanding of {rule.title}.</p>
-          <Link href="/dashboard">
+          <Link href={`/learn/${rule.id}/practice`}>
             <AppButton variant="outline" style={{ border: '2px solid white', color: 'white' }}>Start Practice Session</AppButton>
           </Link>
         </GlassCard>
