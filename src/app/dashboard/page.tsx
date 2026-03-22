@@ -39,25 +39,30 @@ const DashboardPage = () => {
         </div>
       </header>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
+      <div className="responsive-grid" style={{ gridTemplateColumns: '2fr 1fr' }}>
         {/* Main Content */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {/* Mastery Grid */}
           <GlassCard>
             <h3 style={{ marginBottom: '2rem', fontSize: '1.5rem' }}>Topic Mastery</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', 
+              gap: '1.5rem',
+              justifyItems: 'center'
+            }}>
               {user.mastery.map((m, i) => (
                 <div key={i} style={{ textAlign: 'center' }}>
                   <div style={{ 
                     position: 'relative', 
-                    width: '100px', 
-                    height: '100px', 
+                    width: '80px', 
+                    height: '80px', 
                     margin: '0 auto 1rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}>
-                    <svg width="100" height="100" viewBox="0 0 100 100">
+                    <svg width="80" height="80" viewBox="0 0 100 100">
                       <circle cx="50" cy="50" r="45" fill="none" stroke="var(--card-border)" strokeWidth="8" />
                       <circle cx="50" cy="50" r="45" fill="none" stroke={m.color} strokeWidth="8" 
                         strokeDasharray={`${2 * Math.PI * 45}`}
@@ -66,9 +71,9 @@ const DashboardPage = () => {
                         style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%', transition: 'stroke-dashoffset 1s ease' }}
                       />
                     </svg>
-                    <span style={{ position: 'absolute', fontWeight: 700, fontSize: '1.2rem' }}>{m.score}%</span>
+                    <span style={{ position: 'absolute', fontWeight: 700, fontSize: '1rem' }}>{m.score}%</span>
                   </div>
-                  <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>{m.topic}</span>
+                  <span style={{ fontWeight: 600, fontSize: '0.8rem' }}>{m.topic}</span>
                 </div>
               ))}
             </div>
@@ -78,8 +83,8 @@ const DashboardPage = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h3 style={{ fontSize: '1.5rem' }}>Recommended for you</h3>
             {recommendedExercises.map((ex, i) => (
-              <GlassCard key={i} hover style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
+              <GlassCard key={i} hover style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ flex: 1 }}>
                   <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{ex.title}</h4>
                   <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                     <span>{ex.level}</span>
@@ -88,7 +93,7 @@ const DashboardPage = () => {
                   </div>
                 </div>
                 <Link href={`/exercise/${ex.id}`}>
-                  <AppButton>Start Lesson</AppButton>
+                  <AppButton size="sm">Start</AppButton>
                 </Link>
               </GlassCard>
             ))}
@@ -99,10 +104,10 @@ const DashboardPage = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           <GlassCard style={{ textAlign: 'center' }}>
             <h4 style={{ marginBottom: '1.5rem', opacity: 0.7 }}>DAILY GOAL</h4>
-            <div style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+            <div style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>
               {Math.min(10, user.goal)}/15
             </div>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Minutes practiced today</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>Minutes practiced today</p>
             <div style={{ height: '8px', background: 'var(--card-border)', borderRadius: '4px', overflow: 'hidden' }}>
               <div style={{ width: '66%', height: '100%', background: 'var(--primary)' }} />
             </div>
@@ -110,7 +115,7 @@ const DashboardPage = () => {
 
           <GlassCard className="grad-primary" style={{ color: 'white' }}>
             <h3 style={{ marginBottom: '1rem' }}>Go Pro!</h3>
-            <p style={{ marginBottom: '1.5rem', fontSize: '0.9rem', opacity: 0.9 }}>Unlock unlimited exercises, advanced AI feedback, and free writing analysis.</p>
+            <p style={{ marginBottom: '1.5rem', fontSize: '0.9rem', opacity: 0.9 }}>Unlock unlimited exercises and advanced AI feedback.</p>
             <Link href="/pricing">
               <AppButton variant="outline" style={{ border: '2px solid white', color: 'white', width: '100%' }}>Upgrade Now</AppButton>
             </Link>

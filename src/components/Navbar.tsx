@@ -1,7 +1,12 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
+import AppButton from './AppButton';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <nav className="glass" style={{
       position: 'sticky',
@@ -15,22 +20,66 @@ const Navbar = () => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <Link href="/" style={{ fontSize: '1.5rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <Link href="/" style={{ fontSize: '1.5rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
           <span className="text-grad">GrammarLift</span>
         </Link>
         
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          <Link href="/dashboard" style={{ fontWeight: 500 }}>Dashboard</Link>
-          <Link href="/learn" style={{ fontWeight: 500 }}>Learn</Link>
-          <Link href="/tutor" style={{ fontWeight: 500 }}>AI Tutor</Link>
-          <Link href="/scenarios" style={{ fontWeight: 500 }}>Scenarios</Link>
-          <Link href="/exercises" style={{ fontWeight: 500 }}>Exercises</Link>
-          <Link href="/free-writing" style={{ fontWeight: 500 }}>Free Writing</Link>
-          <Link href="/pricing" className="btn btn-primary" style={{ padding: '0.5rem 1.25rem' }}>
-            Go Pro
+        {/* Desktop Menu */}
+        <div className="hide-on-mobile" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <Link href="/dashboard" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Dashboard</Link>
+          <Link href="/scenarios" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
+          <Link href="/free-writing" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
+          <Link href="/pricing" style={{ textDecoration: 'none' }}>
+            <AppButton size="sm">Go Pro</AppButton>
           </Link>
         </div>
+
+        {/* Mobile Toggle */}
+        <button 
+          className="hide-on-desktop"
+          onClick={() => setIsOpen(!isOpen)}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+            padding: '0.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            color: 'var(--foreground)'
+          }}
+        >
+          {isOpen ? '✕' : '☰'}
+        </button>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <div className="glass animate-fade-in" style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          right: 0,
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.5rem',
+          borderTop: '1px solid var(--card-border)'
+        }}>
+          <Link href="/dashboard" onClick={() => setIsOpen(false)} style={{ fontWeight: 600, fontSize: '1.2rem', textDecoration: 'none', color: 'inherit' }}>Dashboard</Link>
+          <Link href="/scenarios" onClick={() => setIsOpen(false)} style={{ fontWeight: 600, fontSize: '1.2rem', textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
+          <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontWeight: 600, fontSize: '1.2rem', textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
+          <Link href="/pricing" onClick={() => setIsOpen(false)} style={{ textDecoration: 'none' }}>
+            <AppButton style={{ width: '100%' }}>Go Pro</AppButton>
+          </Link>
+        </div>
+      )}
+
+      <style jsx>{`
+        @media (min-width: 769px) {
+          .hide-on-desktop { display: none !important; }
+        }
+      `}</style>
     </nav>
   );
 };

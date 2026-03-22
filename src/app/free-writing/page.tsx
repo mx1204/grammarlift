@@ -44,19 +44,19 @@ const FreeWritingPage = () => {
         },
         { 
           pattern: /([Gg]et)\s+it/g, 
-          replacement: 'obtain it', 
+          correction: 'obtain it', 
           explanation: 'Consider using more formal vocabulary like "obtain" or "acquire" in written English.',
           type: 'suggestion' as const
         }
       ];
 
-      errorPatterns.forEach(({ pattern, correction, replacement, explanation, type }) => {
+      errorPatterns.forEach(({ pattern, correction, explanation, type }) => {
         let match;
         while ((match = pattern.exec(inputText)) !== null) {
           foundHighlights.push({
             type,
             text: match[0],
-            correction: (correction || replacement || '').replace('$1', match[1] || ''),
+            correction: correction.replace('$1', match[1] || ''),
             explanation,
             start: match.index,
             end: match.index + match[0].length
@@ -65,20 +65,17 @@ const FreeWritingPage = () => {
       });
 
       // If no specific errors found, provide a generic "Good job" or single suggestion
-      if (foundHighlights.length === 0) {
-        // Just mock a generic suggestion if the text is long enough
-        if (inputText.length > 10) {
-          const words = inputText.split(' ');
-          const firstWord = words[0];
-          foundHighlights.push({
-            type: 'suggestion',
-            text: firstWord,
-            correction: firstWord,
-            explanation: 'Your sentence structure looks solid! Great use of grammar at the Intermediate level.',
-            start: 0,
-            end: firstWord.length
-          });
-        }
+      if (foundHighlights.length === 0 && inputText.length > 10) {
+        const words = inputText.split(' ');
+        const firstWord = words[0];
+        foundHighlights.push({
+          type: 'suggestion',
+          text: firstWord,
+          correction: firstWord,
+          explanation: 'Your sentence structure looks solid! Great use of grammar at the Intermediate level.',
+          start: 0,
+          end: firstWord.length
+        });
       }
       
       setHighlights(foundHighlights.sort((a, b) => a.start - b.start));
@@ -87,12 +84,15 @@ const FreeWritingPage = () => {
   };
 
   const renderAnnotatedText = () => {
-    if (!highlights) return text;
+    if (!highlights || highlights.length === 0) return text;
 
     let lastIndex = 0;
     const parts = [];
 
-    highlights.sort((a, b) => a.start - b.start).forEach((h, i) => {
+    // Ensure they are sorted
+    const sortedHighlights = [...highlights].sort((a, b) => a.start - b.start);
+
+    sortedHighlights.forEach((h, i) => {
       // Add text before highlight
       parts.push(text.slice(lastIndex, h.start));
       
@@ -103,28 +103,10 @@ const FreeWritingPage = () => {
           style={{ 
             background: h.type === 'error' ? 'rgba(239, 68, 68, 0.2)' : 'rgba(59, 130, 246, 0.2)',
             borderBottom: `2px solid ${h.type === 'error' ? 'var(--error)' : 'var(--primary)'}`,
-            cursor: 'help',
-            padding: '2px 0',
-            position: 'relative'
+            padding: '2px 0'
           }}
-          title={h.explanation}
         >
           {h.text}
-          <span style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            background: 'var(--foreground)',
-            color: 'var(--background)',
-            padding: '4px 8px',
-            borderRadius: '4px',
-            fontSize: '0.75rem',
-            whiteSpace: 'nowrap',
-            zIndex: 10,
-            display: 'none', // Simple implementation, can use tooltips
-          }}>
-            {h.correction}
-          </span>
         </span>
       );
       
@@ -136,81 +118,122 @@ const FreeWritingPage = () => {
   };
 
   return (
-    <div className="container animate-fade-in" style={{ marginTop: '2rem' }}>
+    <div className="container animate-fade-in" style={{ marginTop: '2rem', paddingBottom: '4rem' }}>
       <header style={{ marginBottom: '3rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>Free Writing Mode</h1>
+        <h1 style={{ fontWeight: 800, marginBottom: '0.5rem' }}>Free Writing Mode</h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>Paste any text and receive level-aware AI feedback.</p>
       </header>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '2rem' }}>
+      <div className="responsive-grid" style={{ gridTemplateColumns: '1.2fr 1fr' }}>
+        {/* Input area */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <GlassCard style={{ padding: '0' }}>
             <textarea
-              placeholder="Start typing or paste your text here..."
               value={text}
               onChange={(e) => setText(e.target.value)}
+              placeholder="Paste your English text here to check for grammar and interpersonal tone..."
               style={{
                 width: '100%',
-                minHeight: '400px',
-                padding: '2rem',
+                minHeight: '350px',
+                padding: '1.5rem',
                 background: 'transparent',
                 border: 'none',
-                outline: 'none',
+                color: 'var(--foreground)',
                 fontFamily: 'inherit',
                 fontSize: '1.1rem',
-                resize: 'none',
-                color: 'inherit',
+                resize: 'vertical',
+                outline: 'none',
                 lineHeight: 1.6
               }}
             />
           </GlassCard>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <AppButton 
-              size="lg" 
-              onClick={handleAnalyze} 
-              disabled={isAnalyzing || !text.trim()}
-            >
-              {isAnalyzing ? 'Analyzing...' : 'Analyze Text'}
-            </AppButton>
+          
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+             <AppButton variant="outline" onClick={() => { setText(''); setHighlights(null); }}>Clear</AppButton>
+             <AppButton 
+               onClick={handleAnalyze} 
+               disabled={isAnalyzing || !text.trim()}
+             >
+               {isAnalyzing ? 'Analyzing...' : 'Analyze Writing'}
+             </AppButton>
           </div>
         </div>
 
-        <div>
-          <h3 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Analysis Results</h3>
-          {highlights ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {/* Results area */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {isAnalyzing ? (
+            <GlassCard style={{ 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              padding: '3rem 2rem'
+            }}>
+              <div className="pulse" style={{ 
+                width: '60px', 
+                height: '60px', 
+                borderRadius: '50%', 
+                border: '4px solid var(--primary)',
+                borderTopColor: 'transparent',
+                animation: 'spin 1.5s linear infinite',
+                marginBottom: '1.5rem'
+              }} />
+              <h4>AI is analyzing...</h4>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Checking grammar and interpersonal nuances</p>
+            </GlassCard>
+          ) : highlights ? (
+            <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               <GlassCard style={{ lineHeight: 1.8 }}>
-                {renderAnnotatedText()}
+                <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>Annotated Results</h4>
+                <div style={{ fontSize: '1.1rem' }}>{renderAnnotatedText()}</div>
               </GlassCard>
-              
+
               {highlights.map((h, i) => (
                 <GlassCard key={i} style={{ borderLeft: `4px solid ${h.type === 'error' ? 'var(--error)' : 'var(--primary)'}` }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', alignItems: 'center' }}>
                     <span style={{ 
                       fontWeight: 700, 
                       color: h.type === 'error' ? 'var(--error)' : 'var(--primary)',
                       textTransform: 'uppercase',
-                      fontSize: '0.8rem'
+                      fontSize: '0.75rem'
                     }}>
                       {h.type}
                     </span>
-                    <span style={{ opacity: 0.6, fontSize: '0.9rem' }}>&quot;{h.text}&quot;</span>
+                    <span style={{ opacity: 0.6, fontSize: '0.85rem', fontStyle: 'italic' }}>&quot;{h.text}&quot;</span>
                   </div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 600, marginBottom: '0.5rem' }}>
                     Correction: <span style={{ color: 'var(--success)' }}>{h.correction}</span>
                   </div>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>{h.explanation}</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{h.explanation}</p>
                 </GlassCard>
               ))}
             </div>
           ) : (
-            <GlassCard style={{ textAlign: 'center', padding: '4rem 2rem', color: 'var(--text-muted)' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📝</div>
-              <p>Type something on the left and click &quot;Analyze&quot; to see your grammar feedback here.</p>
+            <GlassCard style={{ 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              textAlign: 'center',
+              padding: '4rem 2rem',
+              opacity: 0.7
+            }}>
+              <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>📝</div>
+              <h4>Ready for analysis</h4>
+              <p style={{ fontSize: '0.95rem' }}>Type something on the left and click &quot;Analyze Writing&quot; to see detailed feedback.</p>
             </GlassCard>
           )}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };

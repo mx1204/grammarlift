@@ -7,14 +7,14 @@ export default function Home() {
     <div className="container animate-fade-in">
       {/* Hero Section */}
       <section className="section-padding" style={{ textAlign: 'center' }}>
-        <h1 style={{ fontSize: '4.5rem', fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
+        <h1 style={{ fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
           Elevate Your <span className="text-grad">English Grammar</span> <br />
           with AI Intelligence
         </h1>
-        <p style={{ fontSize: '1.5rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '800px', margin: '0 auto 3rem' }}>
+        <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '800px', margin: '0 auto 3rem' }}>
           Personalized, level-aware feedback and expert explanations to help you write with confidence and precision.
         </p>
-        <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/quiz">
             <AppButton size="lg">Start Free Placement Quiz</AppButton>
           </Link>
@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* Feature Grid */}
       <section className="section-padding">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+        <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
           <GlassCard hover>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎯</div>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Adaptive Placement</h3>
@@ -54,14 +54,14 @@ export default function Home() {
       </section>
 
       {/* CEFR Levels Section */}
-      <section className="section-padding glass" style={{ borderRadius: '32px', padding: '4rem' }}>
+      <section className="section-padding glass" style={{ borderRadius: '32px', padding: 'clamp(2rem, 5vw, 4rem)' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Curriculum Focused on You</h2>
+          <h2 style={{ marginBottom: '1rem' }}>Curriculum Focused on You</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>We cover everything from foundational articles to advanced stylistic nuances.</p>
         </div>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
-          <div style={{ padding: '1.5rem', borderRight: '1px solid var(--card-border)' }}>
+        <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          <div style={{ padding: '1.5rem' }}>
             <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', color: 'var(--primary)' }}>Beginner (A1-A2)</h4>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>Foundational structures & basic tenses</p>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.9rem' }}>
@@ -71,7 +71,7 @@ export default function Home() {
             </ul>
           </div>
           
-          <div style={{ padding: '1.5rem', borderRight: '1px solid var(--card-border)' }}>
+          <div style={{ padding: '1.5rem' }}>
             <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', color: 'var(--primary)' }}>Intermediate (B1-B2)</h4>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>Complexity & professional writing</p>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.9rem' }}>
