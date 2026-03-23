@@ -207,3 +207,193 @@ h3 { font-size: clamp(1.5rem, 4vw, 2rem); }
 .pulse:hover {
   animation: pulse 2s infinite ease-in-out;
 }
+
+/* ═══════════════════ ARENA STYLES ═══════════════════ */
+
+/* Arena CSS Variables */
+:root {
+  --hp-color: hsl(0, 80%, 60%);
+  --xp-color: hsl(48, 96%, 53%);
+  --boss-color: hsl(280, 80%, 60%);
+  --streak-color: hsl(38, 92%, 50%);
+  --correct-bg: hsla(160, 80%, 50%, 0.15);
+  --correct-border: hsl(160, 80%, 50%);
+  --wrong-bg: hsla(0, 80%, 60%, 0.15);
+  --wrong-border: hsl(0, 80%, 60%);
+  --explain-bg: hsla(48, 96%, 53%, 0.10);
+  --explain-border: hsl(48, 60%, 50%);
+}
+
+/* Stat bars */
+.arena-bar-track {
+  height: 12px;
+  border-radius: 99px;
+  background: var(--card-border);
+  overflow: hidden;
+}
+.arena-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.arena-hp-fill { background: linear-gradient(90deg, var(--hp-color), hsl(0,80%,75%)); }
+.arena-xp-fill { background: linear-gradient(90deg, var(--xp-color), hsl(48,96%,70%)); }
+
+/* Explanation panel */
+.explanation-panel {
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--explain-border);
+  background: var(--explain-bg);
+}
+.explanation-panel.correct {
+  border-color: var(--correct-border);
+  background: var(--correct-bg);
+}
+.explanation-panel.wrong {
+  border-color: var(--wrong-border);
+  background: var(--wrong-bg);
+}
+
+/* Option buttons */
+.arena-option {
+  padding: 0.9rem 1.25rem;
+  border-radius: 12px;
+  border: 2px solid var(--card-border);
+  background: var(--card-bg);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: all 0.15s ease;
+}
+.arena-option:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: hsla(222, 89%, 60%, 0.08);
+  transform: translateX(4px);
+}
+.arena-option.selected-correct {
+  border-color: var(--correct-border);
+  background: var(--correct-bg);
+}
+.arena-option.selected-wrong {
+  border-color: var(--wrong-border);
+  background: var(--wrong-bg);
+}
+.arena-option.reveal-correct {
+  border-color: var(--correct-border);
+}
+.arena-option:disabled { cursor: not-allowed; opacity: 0.85; }
+
+/* Boss styles */
+.boss-banner {
+  background: linear-gradient(135deg, var(--boss-color), hsl(220, 80%, 55%));
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Streak badge */
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, var(--streak-color), hsl(38,92%,65%));
+  color: hsl(38, 60%, 20%);
+  padding: 0.3rem 0.75rem;
+  border-radius: 99px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Power-up buttons */
+.powerup-btn {
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--card-border);
+  background: var(--card-bg);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--foreground);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.powerup-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: hsla(222,89%,60%,0.1);
+}
+.powerup-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Highlight trigger words */
+.trigger-word {
+  background: hsla(48, 96%, 53%, 0.25);
+  color: hsl(38, 80%, 35%);
+  padding: 0 3px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+[data-theme='dark'] .trigger-word {
+  color: hsl(48, 96%, 75%);
+  background: hsla(48, 96%, 53%, 0.2);
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shakeX {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-6px); }
+  80%     { transform: translateX(6px); }
+}
+@keyframes bossGlow {
+  0%,100% { box-shadow: 0 0 20px hsla(280,80%,60%,0.4); }
+  50%     { box-shadow: 0 0 40px hsla(280,80%,60%,0.8); }
+}
+@keyframes xpPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.animate-slide-up  { animation: slideUp 0.35s ease-out forwards; }
+.animate-shake     { animation: shakeX 0.4s ease-out; }
+.boss-glow         { animation: bossGlow 2s infinite ease-in-out; }
+.xp-pop            { animation: xpPop 0.4s ease-out; }
+
+/* Split screen for duel */
+.split-screen {
+  display: grid;
+  grid-template-columns: 1fr 4px 1fr;
+  gap: 0;
+  min-height: 60vh;
+}
+.split-divider {
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  border-radius: 99px;
+}
+@media (max-width: 768px) {
+  .split-screen {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 4px 1fr;
+  }
+  .split-divider {
+    height: 4px;
+    width: 100%;
+  }
+}

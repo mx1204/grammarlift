@@ -28,6 +28,7 @@ const Navbar = () => {
         <div className="hide-on-mobile" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <Link href="/scenarios" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
           <Link href="/learn" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
+          <Link href="/arena" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
           <Link href="/pricing" style={{ textDecoration: 'none' }}>
             <AppButton size="sm">Go Pro</AppButton>
           </Link>
@@ -66,6 +67,7 @@ const Navbar = () => {
           borderTop: '1px solid var(--card-border)'
         }}>
             <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
+            <Link href="/arena" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
             <Link href="/scenarios" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
             <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
             <Link href="/pricing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Pricing</Link>
