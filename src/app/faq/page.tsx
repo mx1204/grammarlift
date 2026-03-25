@@ -3,7 +3,7 @@ import GlassCard from '@/components/GlassCard';
 
 export const metadata: Metadata = {
   title: 'FAQ - Grammar Lift by Max',
-  description: 'Frequently asked questions about Grammar Lift by Max, including the free placement test, writing mode, and grammar library.',
+  description: 'Frequently asked questions about Grammar Lift by Max, including the free placement test, grammar lessons, exercises, and games.',
 };
 
 export default function FAQPage() {
@@ -16,7 +16,7 @@ export default function FAQPage() {
         name: 'What is Grammar Lift by Max?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1-C2), a free writing mode where you can paste text and receive grammar corrections with simple explanations, and a library of grammar rules organized by level.',
+          text: 'Grammar Lift by Max is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1-C2), a library of grammar lessons organized by level, interactive exercises to practice each topic, and fun games to reinforce your skills.',
         },
       },
       {
@@ -24,7 +24,7 @@ export default function FAQPage() {
         name: 'Is Grammar Lift by Max free?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes, all core features are completely free, including the placement test, writing corrections, and grammar library. There is no paywall or subscription required.',
+          text: 'Yes, all features are completely free: the placement test, grammar lessons, exercises, and games. There is no paywall or subscription required.',
         },
       },
       {
@@ -32,7 +32,7 @@ export default function FAQPage() {
         name: 'How does the placement test work?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The 5-minute adaptive quiz asks a series of questions and places you into one of three CEFR levels: A1-A2 (beginner), B1-B2 (intermediate), or C1-C2 (advanced). The platform then recommends exercises based on your level.',
+          text: 'The 5-minute adaptive quiz asks a series of questions and places you into one of three CEFR levels: A1-A2 (beginner), B1-B2 (intermediate), or C1-C2 (advanced). The platform then recommends lessons and exercises based on your level.',
         },
       },
       {
@@ -40,15 +40,7 @@ export default function FAQPage() {
         name: 'What grammar topics are covered?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The platform covers beginner topics like articles and present simple, intermediate topics like conditionals and passive voice, and advanced topics like mixed conditionals and subjunctive mood. All topics include interactive exercises.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What grammar topics are covered?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The platform covers beginner topics like articles and present simple, intermediate topics like conditionals and passive voice, and advanced topics like mixed conditionals and subjunctive mood.',
+          text: 'The platform covers beginner topics like articles and present simple, intermediate topics like conditionals and passive voice, and advanced topics like mixed conditionals and subjunctive mood. Each topic includes lessons, exercises, and games.',
         },
       },
       {
@@ -56,7 +48,15 @@ export default function FAQPage() {
         name: 'How is Grammar Lift by Max different from Grammarly?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max focuses on structured grammar learning, placement testing, and free writing corrections with explanations. Grammarly is a broader writing assistant for tone and style across many platforms.',
+          text: 'Grammar Lift by Max focuses on structured grammar learning with levels, interactive exercises, and games. Grammarly is a broader writing assistant for tone and style. Grammar Lift helps you learn grammar systematically, while Grammarly helps you polish writing in real time.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What kinds of games are available?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The platform includes interactive grammar games that let you practice topics like verb tenses, articles, and sentence structure in a fun, engaging way. Games are designed to reinforce what you learn in the lessons and exercises.',
         },
       },
       {
@@ -64,7 +64,7 @@ export default function FAQPage() {
         name: 'Do I need to create an account?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No account is required to use the placement test, grammar library, or free writing mode.',
+          text: 'No account is required to use the placement test, grammar lessons, exercises, or games. Everything is accessible immediately without signing up.',
         },
       },
       {
@@ -72,7 +72,7 @@ export default function FAQPage() {
         name: 'Is this suitable for IELTS preparation?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The platform focuses on foundational to advanced grammar (A1-C2). While it helps with grammar for IELTS, it does not yet offer IELTS-specific practice materials.',
+          text: 'The platform focuses on foundational to advanced grammar (A1-C2). While it helps with grammar for IELTS, it does not yet offer IELTS-specific practice materials. It is ideal for building the grammar skills needed for the exam.',
         },
       },
     ],
