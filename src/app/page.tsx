@@ -21,6 +21,9 @@ export default function Home() {
           <Link href="/pricing">
             <AppButton variant="outline" size="lg">View Pricing</AppButton>
           </Link>
+          <Link href="/faq">
+            <AppButton variant="outline" size="lg">FAQ</AppButton>
+          </Link>
         </div>
       </section>
 
