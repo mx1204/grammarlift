@@ -3,7 +3,7 @@ import GlassCard from '@/components/GlassCard';
 
 export const metadata: Metadata = {
   title: 'FAQ - Grammar Lift by Max',
-  description: 'Frequently asked questions about Grammar Lift by Max, including the free placement test, grammar exercises, and interactive games.',
+  description: 'Frequently asked questions about Grammar Lift by Max, including the free placement test, grammar library, and interactive games.',
 };
 
 export default function FAQPage() {
@@ -16,7 +16,7 @@ export default function FAQPage() {
         name: 'What is Grammar Lift by Max?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1-C2), a library of grammar rules with interactive exercises, and fun grammar games to reinforce learning.',
+          text: 'Grammar Lift by Max is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1-C2), a library of grammar rules organized by level, and interactive exercises including game modes like Dungeon and Duel for fun practice.',
         },
       },
       {
@@ -24,7 +24,7 @@ export default function FAQPage() {
         name: 'Is Grammar Lift by Max free?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes, all core features are completely free, including the placement test, grammar exercises, and games. There is no paywall or subscription required.',
+          text: 'Yes, all core features are completely free, including the placement test, grammar lessons, interactive exercises, and game modes. There is no paywall or subscription required.',
         },
       },
       {
@@ -40,15 +40,15 @@ export default function FAQPage() {
         name: 'What grammar topics are covered?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The platform covers beginner topics like articles and present simple, intermediate topics like conditionals and passive voice, and advanced topics like mixed conditionals and subjunctive mood. All topics include interactive exercises and games.',
+          text: 'The platform covers beginner topics like articles and present simple, intermediate topics like conditionals and passive voice, and advanced topics like mixed conditionals and subjunctive mood. All topics include interactive exercises and game modes to reinforce learning.',
         },
       },
       {
         '@type': 'Question',
-        name: 'What kind of games are available?',
+        name: 'What is Grammar Arena?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max includes game modes like "Grammar Arena" where you can practice grammar in a dungeon or duel format. These games make learning fun while reinforcing grammar rules.',
+          text: 'Grammar Arena is a game section with two modes: Dungeon and Duel. In Dungeon, you progress through grammar challenges; in Duel, you compete against others or the AI. It’s designed to make grammar practice more engaging.',
         },
       },
       {
@@ -56,7 +56,7 @@ export default function FAQPage() {
         name: 'How is Grammar Lift by Max different from Grammarly?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max focuses on structured grammar learning through level-based exercises and games. Grammarly is a broader writing assistant for tone and style across many platforms.',
+          text: 'Grammar Lift by Max focuses on structured grammar learning, placement testing, and interactive practice through exercises and games. Grammarly is a broader writing assistant for tone and style across many platforms.',
         },
       },
       {
@@ -64,7 +64,7 @@ export default function FAQPage() {
         name: 'Do I need to create an account?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No account is required to use the placement test or grammar exercises. Some game features may work without an account as well.',
+          text: 'No account is required to use the placement test, grammar library, or most exercises. Some game modes may track your progress, but you can still play without signing up.',
         },
       },
       {
@@ -72,7 +72,7 @@ export default function FAQPage() {
         name: 'Is this suitable for IELTS preparation?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The platform focuses on foundational to advanced grammar (A1-C2). While it helps with grammar for IELTS, it does not yet offer IELTS-specific practice materials.',
+          text: 'The platform focuses on foundational to advanced grammar (A1-C2). While it helps with grammar for IELTS, it does not yet offer IELTS-specific practice materials. It’s a great supplement for building solid grammar skills.',
         },
       },
     ],
