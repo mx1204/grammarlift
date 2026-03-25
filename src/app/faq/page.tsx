@@ -85,7 +85,7 @@ export default function FAQPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <div className="container animate-fade-in">
-        {/* Hero Section */}
+        {/* Hero Section - Simplified */}
         <section className="section-padding" style={{ textAlign: 'center' }}>
           <h1 style={{ fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
             Frequently Asked <span className="text-grad">Questions</span>
@@ -95,18 +95,18 @@ export default function FAQPage() {
           </p>
         </section>
 
-        {/* FAQ Grid */}
-        <section className="section-padding">
+        {/* FAQ Grid - Using same style as "Curriculum Focused on You" section */}
+        <section className="section-padding glass" style={{ borderRadius: '32px', padding: 'clamp(2rem, 5vw, 4rem)' }}>
           <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {faqSchema.mainEntity.map((item, idx) => (
-              <GlassCard key={idx} hover>
-                <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', fontWeight: 600 }}>
+              <div key={idx} style={{ padding: '1.5rem' }}>
+                <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', fontWeight: 600, color: 'var(--primary)' }}>
                   {item.name}
                 </h3>
                 <p style={{ color: 'var(--text-muted)', lineHeight: 1.5 }}>
                   {item.acceptedAnswer.text}
                 </p>
-              </GlassCard>
+              </div>
             ))}
           </div>
         </section>
