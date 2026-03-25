@@ -3,7 +3,7 @@ import GlassCard from '@/components/GlassCard';
 
 export const metadata: Metadata = {
   title: 'FAQ - Grammar Lift by Max',
-  description: 'Frequently asked questions about Grammar Lift by Max, including the free placement test, grammar library, and interactive games.',
+  description: 'Frequently asked questions about Grammar Lift by Max, including the free placement test, grammar library, interactive exercises, and games.',
 };
 
 export default function FAQPage() {
@@ -16,7 +16,7 @@ export default function FAQPage() {
         name: 'What is Grammar Lift by Max?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1-C2), a library of grammar rules organized by level, and interactive exercises including game modes like Dungeon and Duel for fun practice.',
+          text: 'Grammar Lift by Max is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1–C2), a library of grammar rules organized by level with interactive exercises, and game modes like Dungeon and Duel to make learning fun.',
         },
       },
       {
@@ -24,7 +24,7 @@ export default function FAQPage() {
         name: 'Is Grammar Lift by Max free?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Yes, all core features are completely free, including the placement test, grammar lessons, interactive exercises, and game modes. There is no paywall or subscription required.',
+          text: 'Yes, all core features are completely free, including the placement test, grammar library, interactive exercises, and games. There is no paywall or subscription required.',
         },
       },
       {
@@ -32,7 +32,7 @@ export default function FAQPage() {
         name: 'How does the placement test work?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The 5-minute adaptive quiz asks a series of questions and places you into one of three CEFR levels: A1-A2 (beginner), B1-B2 (intermediate), or C1-C2 (advanced). The platform then recommends exercises and games based on your level.',
+          text: 'The 5-minute adaptive quiz asks a series of questions and places you into one of three CEFR levels: A1–A2 (beginner), B1–B2 (intermediate), or C1–C2 (advanced). After the test, the platform recommends exercises and games based on your level.',
         },
       },
       {
@@ -40,23 +40,15 @@ export default function FAQPage() {
         name: 'What grammar topics are covered?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The platform covers beginner topics like articles and present simple, intermediate topics like conditionals and passive voice, and advanced topics like mixed conditionals and subjunctive mood. All topics include interactive exercises and game modes to reinforce learning.',
+          text: 'The platform covers beginner topics like articles and present simple, intermediate topics like conditionals and passive voice, and advanced topics like mixed conditionals and subjunctive mood. Each topic includes interactive exercises to practice.',
         },
       },
       {
         '@type': 'Question',
-        name: 'What is Grammar Arena?',
+        name: 'What games does Grammar Lift by Max offer?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Arena is a game section with two modes: Dungeon and Duel. In Dungeon, you progress through grammar challenges; in Duel, you compete against others or the AI. It’s designed to make grammar practice more engaging.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How is Grammar Lift by Max different from Grammarly?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Grammar Lift by Max focuses on structured grammar learning, placement testing, and interactive practice through exercises and games. Grammarly is a broader writing assistant for tone and style across many platforms.',
+          text: 'You can practice grammar with game modes such as Dungeon and Duel. These games make learning engaging and help reinforce grammar rules through challenges.',
         },
       },
       {
@@ -64,7 +56,15 @@ export default function FAQPage() {
         name: 'Do I need to create an account?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No account is required to use the placement test, grammar library, or most exercises. Some game modes may track your progress, but you can still play without signing up.',
+          text: 'No account is required to use the placement test, grammar library, exercises, or games. Everything is accessible immediately without signing up.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How is Grammar Lift by Max different from other grammar learning platforms?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Grammar Lift by Max combines a precise CEFR placement test, structured grammar library, interactive exercises, and game modes – all completely free. It focuses on learning through practice and play without any paywalls.',
         },
       },
       {
@@ -72,7 +72,7 @@ export default function FAQPage() {
         name: 'Is this suitable for IELTS preparation?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The platform focuses on foundational to advanced grammar (A1-C2). While it helps with grammar for IELTS, it does not yet offer IELTS-specific practice materials. It’s a great supplement for building solid grammar skills.',
+          text: 'The platform focuses on foundational to advanced grammar (A1–C2). While it helps with grammar for IELTS, it does not yet offer IELTS-specific practice materials.',
         },
       },
     ],
