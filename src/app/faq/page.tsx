@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import GlassCard from '@/components/GlassCard';
 
 export const metadata: Metadata = {
   title: 'FAQ - Grammar Lift by Max',
@@ -83,17 +84,33 @@ export default function FAQPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <main className="max-w-3xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-8">Frequently Asked Questions</h1>
-        <div className="space-y-8">
-          {faqSchema.mainEntity.map((item, idx) => (
-            <div key={idx} className="border-b pb-6">
-              <h2 className="text-xl font-semibold mb-3">{item.name}</h2>
-              <p className="text-gray-700">{item.acceptedAnswer.text}</p>
-            </div>
-          ))}
-        </div>
-      </main>
+      <div className="container animate-fade-in">
+        {/* Hero Section */}
+        <section className="section-padding" style={{ textAlign: 'center' }}>
+          <h1 style={{ fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
+            Frequently Asked <span className="text-grad">Questions</span>
+          </h1>
+          <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', maxWidth: '800px', margin: '0 auto' }}>
+            Everything you need to know about Grammar Lift by Max
+          </p>
+        </section>
+
+        {/* FAQ Grid */}
+        <section className="section-padding">
+          <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            {faqSchema.mainEntity.map((item, idx) => (
+              <GlassCard key={idx} hover>
+                <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', fontWeight: 600 }}>
+                  {item.name}
+                </h3>
+                <p style={{ color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                  {item.acceptedAnswer.text}
+                </p>
+              </GlassCard>
+            ))}
+          </div>
+        </section>
+      </div>
     </>
   );
 }
