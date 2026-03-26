@@ -29,6 +29,7 @@ const Navbar = () => {
           <Link href="/scenarios" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
           <Link href="/learn" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
           <Link href="/arena" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
+          <Link href="/free-writing" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
         </div>
 
         {/* Mobile Toggle */}
