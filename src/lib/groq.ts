@@ -68,3 +68,55 @@ export async function getTutorResponse(messages: { role: 'user' | 'assistant', c
     }, 1200);
   });
 }
+
+export async function getSpeakingFeedback(transcription: string, originalPrompt: string, mode: 'shadowing' | 'free' = 'free'): Promise<GroqFeedback> {
+  console.log(`Analyzing spoken text: "${transcription}" for mode: ${mode}`);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let errorFound = false;
+      let correction = transcription;
+      let explanation = "Your speaking was clear and grammatically correct!";
+      let example = "";
+
+      const lowerText = transcription.toLowerCase();
+
+      if (mode === 'shadowing') {
+        const lowerPrompt = originalPrompt.toLowerCase().replace(/[.,!?;]/g, '');
+        const cleanedTranscription = lowerText.replace(/[.,!?;]/g, '');
+        
+        if (cleanedTranscription !== lowerPrompt) {
+          errorFound = true;
+          correction = originalPrompt;
+          explanation = "You missed a few words or changed the structure compared to the model sentence.";
+          example = `Model: "${originalPrompt}"`;
+        }
+      } else {
+        // Free response common error checks
+        if (lowerText.includes("he go") || lowerText.includes("she go")) {
+          errorFound = true;
+          correction = transcription.replace(/he go/i, "he goes").replace(/she go/i, "she goes");
+          explanation = "Remember to use the third-person singular 's' for present tense.";
+          example = "He goes to the gym every day.";
+        } else if (lowerText.includes("i has")) {
+          errorFound = true;
+          correction = transcription.replace(/i has/i, "I have");
+          explanation = "The first-person singular 'I' takes 'have', not 'has'.";
+          example = "I have a lot of work today.";
+        } else if (lowerText.includes("yesterday i go")) {
+          errorFound = true;
+          correction = transcription.replace(/yesterday i go/i, "yesterday I went");
+          explanation = "When talking about the past (yesterday), remember to use the past simple form 'went'.";
+          example = "Yesterday I went to the park.";
+        }
+      }
+
+      resolve({
+        errorFound,
+        correction,
+        explanation,
+        example
+      });
+    }, 1500);
+  });
+}
