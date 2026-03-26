@@ -32,13 +32,18 @@ export default function SpeakingPage() {
   const currentShadowingPrompt = SHADOWING_PROMPTS[currentPromptIndex];
   const currentFreePrompt = FREE_PROMPTS[currentPromptIndex];
 
-  const handleTranscriptionComplete = async (text: string) => {
+  const handleTranscriptChange = (text: string) => {
     setTranscription(text);
-    setIsAnalyzing(true);
+    if (feedback) setFeedback(null); // Clear old feedback when user starts speaking again
+  };
+
+  const handleStop = async (finalText: string) => {
+    if (!finalText.trim()) return;
     
+    setIsAnalyzing(true);
     try {
       const prompt = mode === 'shadowing' ? currentShadowingPrompt : currentFreePrompt.question;
-      const result = await getSpeakingFeedback(text, prompt, mode);
+      const result = await getSpeakingFeedback(finalText, prompt, mode);
       setFeedback(result);
     } catch (error) {
       console.error("Feedback error:", error);
@@ -111,7 +116,8 @@ export default function SpeakingPage() {
 
           <div style={{ margin: '3rem 0' }}>
             <SpeechToText 
-              onTranscriptionComplete={handleTranscriptionComplete} 
+              onTranscriptChange={handleTranscriptChange}
+              onStop={handleStop}
               isProcessing={isAnalyzing} 
             />
           </div>

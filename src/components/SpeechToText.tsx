@@ -4,15 +4,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import AppButton from './AppButton';
 
 interface SpeechToTextProps {
-  onTranscriptionComplete: (text: string) => void;
+  onTranscriptChange: (text: string) => void;
+  onStop: (finalText: string) => void;
   isProcessing: boolean;
 }
 
-const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptionComplete, isProcessing }) => {
+const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptChange, onStop, isProcessing }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [interimText, setInterimText] = useState('');
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<any>(null);
+  const transcriptRef = useRef<string>('');
 
   useEffect(() => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -39,9 +40,11 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptionComplete, is
         }
       }
 
-      setInterimText(interimTranscript);
+      const fullTranscript = (transcriptRef.current + ' ' + finalTranscript + ' ' + interimTranscript).trim();
+      onTranscriptChange(fullTranscript);
+      
       if (finalTranscript) {
-        onTranscriptionComplete(finalTranscript.trim());
+        transcriptRef.current = (transcriptRef.current + ' ' + finalTranscript).trim();
       }
     };
 
@@ -56,9 +59,7 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptionComplete, is
     };
 
     recognition.onend = () => {
-      if (isRecording) {
-        recognition.start(); // Auto-restart if we're still supposed to be recording
-      }
+      // Logic handled in toggleRecording
     };
 
     recognitionRef.current = recognition;
@@ -68,15 +69,17 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptionComplete, is
         recognitionRef.current.stop();
       }
     };
-  }, [onTranscriptionComplete, isRecording]);
+  }, [onTranscriptChange]);
 
   const toggleRecording = () => {
     if (isRecording) {
       recognitionRef.current?.stop();
       setIsRecording(false);
-      setInterimText('');
+      onStop(transcriptRef.current);
     } else {
       setError(null);
+      transcriptRef.current = '';
+      onTranscriptChange('');
       try {
         recognitionRef.current?.start();
         setIsRecording(true);
@@ -130,19 +133,7 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptionComplete, is
           fontWeight: 600,
           animation: 'pulse 2s infinite'
         }}>
-          Listening...
-        </div>
-      )}
-
-      {interimText && (
-        <div style={{ 
-          fontSize: '1rem', 
-          color: 'var(--text-muted)', 
-          fontStyle: 'italic',
-          textAlign: 'center',
-          maxWidth: '400px'
-        }}>
-          &quot;{interimText}&quot;
+          Listening... (Click to Finish)
         </div>
       )}
 
