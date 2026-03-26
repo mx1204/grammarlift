@@ -14,6 +14,7 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptChange, onStop,
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<any>(null);
   const transcriptRef = useRef<string>('');
+  const fullTranscriptRef = useRef<string>('');
 
   useEffect(() => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -40,8 +41,9 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptChange, onStop,
         }
       }
 
-      const fullTranscript = (transcriptRef.current + ' ' + finalTranscript + ' ' + interimTranscript).trim();
-      onTranscriptChange(fullTranscript);
+      const currentFullTranscript = (transcriptRef.current + ' ' + finalTranscript + ' ' + interimTranscript).trim();
+      fullTranscriptRef.current = currentFullTranscript;
+      onTranscriptChange(currentFullTranscript);
       
       if (finalTranscript) {
         transcriptRef.current = (transcriptRef.current + ' ' + finalTranscript).trim();
@@ -73,16 +75,22 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptChange, onStop,
 
   const toggleRecording = () => {
     if (isRecording) {
-      recognitionRef.current?.stop();
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
       setIsRecording(false);
-      onStop(transcriptRef.current);
+      // Pass the absolute latest captured text including interim
+      onStop(fullTranscriptRef.current);
     } else {
       setError(null);
       transcriptRef.current = '';
+      fullTranscriptRef.current = '';
       onTranscriptChange('');
       try {
-        recognitionRef.current?.start();
-        setIsRecording(true);
+        if (recognitionRef.current) {
+          recognitionRef.current.start();
+          setIsRecording(true);
+        }
       } catch (err) {
         console.error("Failed to start recognition:", err);
       }

@@ -39,7 +39,7 @@ export default function SpeakingPage() {
 
   const handleStop = async (finalText: string) => {
     if (!finalText.trim()) return;
-    
+    setTranscription(finalText);
     setIsAnalyzing(true);
     try {
       const prompt = mode === 'shadowing' ? currentShadowingPrompt : currentFreePrompt.question;
