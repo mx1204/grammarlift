@@ -18,9 +18,6 @@ export default function Home() {
           <Link href="/quiz">
             <AppButton size="lg">Start Free Placement Quiz</AppButton>
           </Link>
-          <Link href="/pricing">
-            <AppButton variant="outline" size="lg">View Pricing</AppButton>
-          </Link>
           <Link href="/faq">
             <AppButton variant="outline" size="lg">FAQ</AppButton>
           </Link>
