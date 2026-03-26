@@ -64,9 +64,9 @@ const Navbar = () => {
           gap: '1.5rem',
           borderTop: '1px solid var(--card-border)'
         }}>
+            <Link href="/scenarios" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
             <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
             <Link href="/arena" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
-            <Link href="/scenarios" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
             <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
         </div>
       )}
