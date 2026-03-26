@@ -29,9 +29,6 @@ const Navbar = () => {
           <Link href="/scenarios" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
           <Link href="/learn" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
           <Link href="/arena" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
-          <Link href="/pricing" style={{ textDecoration: 'none' }}>
-            <AppButton size="sm">Go Pro</AppButton>
-          </Link>
         </div>
 
         {/* Mobile Toggle */}
