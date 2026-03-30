@@ -184,8 +184,8 @@ export interface GoldenReplyFeedback {
   tactScore: number;
 }
 
-export async function getGoldenReply(text: string, context: string): Promise<GoldenReplyFeedback> {
-  console.log("Generating Golden Reply for:", text, "in context:", context);
+export async function getGoldenReply(text: string, context: string, imageContext?: string): Promise<GoldenReplyFeedback> {
+  console.log("Generating Golden Reply for:", text, "in context:", context, "with image context:", !!imageContext);
 
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -209,8 +209,13 @@ export async function getGoldenReply(text: string, context: string): Promise<Gol
         goldenReply = `Thank you for the opportunity to assist with this. However, given my current commitments, I won't be able to take this on immediately. Could we perhaps revisit this later in the week?`;
         explanation = "Softened the refusal with a 'Yes, but' approach, maintaining a collaborative spirit.";
       } else {
-        goldenReply = `Thank you for your message. ${text.charAt(0).toUpperCase() + text.slice(1)}. I believe this approach will ensure the best outcome for the project.`;
+      if (imageContext) {
+        goldenReply = `Thank you for sharing the conversation context. Based on that, here is a refined response: ${text.charAt(0).toUpperCase() + text.slice(1)}. I've adjusted the tone to match the ongoing discussion for a more natural transition.`;
+        explanation = "Analyzed the provided screenshot for conversation flow and context. The tone has been harmonized with the previous messages.";
+      } else {
+        goldenReply = `Thank you for your message. ${text.charAt(0).toUpperCase() + text.slice(1)}.`;
         explanation = "Enclosed your intent within a professional frame that emphasizes results and professional courtesy.";
+      }
       }
 
       resolve({

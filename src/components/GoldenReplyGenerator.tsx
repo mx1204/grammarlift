@@ -10,12 +10,31 @@ export default function GoldenReplyGenerator() {
   const [context, setContext] = useState('General Professional');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<GoldenReplyFeedback | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const clearImage = () => {
+    setImage(null);
+    setImagePreview(null);
+  };
 
   const handleGenerate = async () => {
     if (!input.trim()) return;
     setLoading(true);
     try {
-      const feedback = await getGoldenReply(input, context);
+      const feedback = await getGoldenReply(input, context, imagePreview || undefined);
       setResult(feedback);
     } catch (error) {
       console.error(error);
@@ -39,31 +58,107 @@ export default function GoldenReplyGenerator() {
           Type your raw thoughts or a blunt draft. Select a context, and our AI will craft a "Golden Version" that is tactful, professional, and impactful.
         </p>
 
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.5rem', textTransform: 'uppercase', opacity: 0.7 }}>
-            Professional Context
-          </label>
-          <select 
-            value={context}
-            onChange={(e) => setContext(e.target.value)}
-            style={{ 
-              width: '100%', 
-              padding: '0.75rem', 
-              borderRadius: '8px', 
-              background: 'var(--card-bg)', 
-              border: '1px solid var(--card-border)',
-              color: 'inherit',
-              cursor: 'pointer'
-            }}
-          >
-            <option>General Professional</option>
-            <option>Email to Manager</option>
-            <option>Client Communication</option>
-            <option>Team Chat (Slack/Teams)</option>
-            <option>Conflict Resolution</option>
-            <option>Networking Request</option>
-          </select>
+        <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
+          <div style={{ flex: 1 }}>
+            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.5rem', textTransform: 'uppercase', opacity: 0.7 }}>
+              Professional Context
+            </label>
+            <select 
+              value={context}
+              onChange={(e) => setContext(e.target.value)}
+              style={{ 
+                width: '100%', 
+                padding: '0.75rem', 
+                borderRadius: '8px', 
+                background: 'var(--card-bg)', 
+                border: '1px solid var(--card-border)',
+                color: 'inherit',
+                cursor: 'pointer'
+              }}
+            >
+              <option>General Professional</option>
+              <option>Email to Manager</option>
+              <option>Client Communication</option>
+              <option>Team Chat (Slack/Teams)</option>
+              <option>Conflict Resolution</option>
+              <option>Networking Request</option>
+            </select>
+          </div>
+
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              id="screenshot-upload"
+              onChange={handleImageChange}
+              style={{ display: 'none' }}
+            />
+            <label 
+              htmlFor="screenshot-upload"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1rem',
+                borderRadius: '8px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px dashed var(--card-border)',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--card-border)'}
+            >
+              📸 {image ? 'Change Screenshot' : 'Add Context Screenshot'}
+            </label>
+          </div>
         </div>
+
+        {imagePreview && (
+          <div style={{ 
+            marginBottom: '1.5rem', 
+            position: 'relative', 
+            display: 'inline-block',
+            padding: '4px',
+            background: 'var(--primary-gradient)',
+            borderRadius: '12px'
+          }}>
+            <img 
+              src={imagePreview} 
+              alt="Context Preview" 
+              style={{ 
+                maxWidth: '200px', 
+                maxHeight: '150px', 
+                borderRadius: '8px', 
+                display: 'block' 
+              }} 
+            />
+            <button
+              onClick={clearImage}
+              style={{
+                position: 'absolute',
+                top: '-8px',
+                right: '-8px',
+                width: '24px',
+                height: '24px',
+                borderRadius: '50%',
+                background: '#ef4444',
+                color: 'white',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+                fontWeight: 'bold',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
         <textarea
           value={input}
