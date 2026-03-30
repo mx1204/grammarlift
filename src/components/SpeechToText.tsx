@@ -15,6 +15,8 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptChange, onStop,
   const recognitionRef = useRef<any>(null);
   const transcriptRef = useRef<string>('');
   const fullTranscriptRef = useRef<string>('');
+  const isRecordingRef = useRef<boolean>(false);
+  const wasStoppedManuallyRef = useRef<boolean>(false);
 
   useEffect(() => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -24,50 +26,72 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptChange, onStop,
       return;
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
+    const initRecognition = () => {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
 
-    recognition.onresult = (event: any) => {
-      let finalTranscript = '';
-      let interimTranscript = '';
+      recognition.onresult = (event: any) => {
+        let finalTranscript = '';
+        let interimTranscript = '';
 
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          finalTranscript += event.results[i][0].transcript;
-        } else {
-          interimTranscript += event.results[i][0].transcript;
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
         }
-      }
 
-      const currentFullTranscript = (transcriptRef.current + ' ' + finalTranscript + ' ' + interimTranscript).trim();
-      fullTranscriptRef.current = currentFullTranscript;
-      onTranscriptChange(currentFullTranscript);
-      
-      if (finalTranscript) {
-        transcriptRef.current = (transcriptRef.current + ' ' + finalTranscript).trim();
-      }
+        const currentFullTranscript = (transcriptRef.current + ' ' + finalTranscript + ' ' + interimTranscript).trim();
+        fullTranscriptRef.current = currentFullTranscript;
+        onTranscriptChange(currentFullTranscript);
+        
+        if (finalTranscript) {
+          transcriptRef.current = (transcriptRef.current + ' ' + finalTranscript).trim();
+        }
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error("Speech Recognition Error:", event.error);
+        if (event.error === 'no-speech') {
+          // This happens if nothing is heard; we'll let onend handle the restart
+          return;
+        }
+        
+        if (event.error === 'not-allowed') {
+          setError("Microphone access denied. Please enable microphone permissions.");
+          setIsRecording(false);
+          isRecordingRef.current = false;
+        } else {
+          // Other errors might require a stop
+          console.warn("Recoverable or transient error:", event.error);
+        }
+      };
+
+      recognition.onend = () => {
+        console.log("Speech Recognition Session Ended. Manual Stop:", wasStoppedManuallyRef.current);
+        // Automatically restart if it wasn't a manual stop and we're supposed to be recording
+        if (!wasStoppedManuallyRef.current && isRecordingRef.current) {
+          console.log("Restarting Speech Recognition...");
+          try {
+            recognitionRef.current.start();
+          } catch (err) {
+            console.error("Could not restart immediately, re-initializing...", err);
+            // If it fails to restart, the ref might be stale, but we should be careful about infinite loops
+          }
+        }
+      };
+
+      recognitionRef.current = recognition;
     };
 
-    recognition.onerror = (event: any) => {
-      console.error("Speech Recognition Error:", event.error);
-      if (event.error === 'not-allowed') {
-        setError("Microphone access denied. Please enable microphone permissions.");
-      } else {
-        setError(`Error: ${event.error}`);
-      }
-      setIsRecording(false);
-    };
-
-    recognition.onend = () => {
-      // Logic handled in toggleRecording
-    };
-
-    recognitionRef.current = recognition;
+    initRecognition();
 
     return () => {
       if (recognitionRef.current) {
+        wasStoppedManuallyRef.current = true;
         recognitionRef.current.stop();
       }
     };
@@ -75,21 +99,33 @@ const SpeechToText: React.FC<SpeechToTextProps> = ({ onTranscriptChange, onStop,
 
   const toggleRecording = () => {
     if (isRecording) {
+      // STOPPING
+      wasStoppedManuallyRef.current = true;
+      isRecordingRef.current = false;
+      setIsRecording(false);
+      
       if (recognitionRef.current) {
         recognitionRef.current.stop();
       }
-      setIsRecording(false);
-      // Pass the absolute latest captured text including interim
-      onStop(fullTranscriptRef.current);
+      
+      // Delay slightly to ensure onStop gets the VERY last bit of data
+      setTimeout(() => {
+        onStop(fullTranscriptRef.current);
+      }, 300);
     } else {
+      // STARTING
       setError(null);
       transcriptRef.current = '';
       fullTranscriptRef.current = '';
       onTranscriptChange('');
+      
+      wasStoppedManuallyRef.current = false;
+      isRecordingRef.current = true;
+      setIsRecording(true);
+      
       try {
         if (recognitionRef.current) {
           recognitionRef.current.start();
-          setIsRecording(true);
         }
       } catch (err) {
         console.error("Failed to start recognition:", err);
