@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import GlassCard from '@/components/GlassCard';
 
 export const metadata: Metadata = {
-  title: 'FAQ - Grammar Lift by Max',
-  description: 'Frequently asked questions about Grammar Lift by Max, including the free placement test, grammar lessons, exercises, and games.',
+  title: 'FAQ - GrammarLift',
+  description: 'Frequently asked questions about GrammarLift, including the free placement test, grammar lessons, exercises, and games.',
 };
 
 export default function FAQPage() {
@@ -13,15 +13,15 @@ export default function FAQPage() {
     mainEntity: [
       {
         '@type': 'Question',
-        name: 'What is Grammar Lift by Max?',
+        name: 'What is GrammarLift?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1-C2), a library of grammar lessons organized by level, interactive exercises to practice each topic, and fun games to reinforce your skills.',
+          text: 'GrammarLift is a free English grammar platform. It offers a 5-minute CEFR placement test to identify your level (A1-C2), a library of grammar lessons organized by level, interactive exercises to practice each topic, and fun games to reinforce your skills.',
         },
       },
       {
         '@type': 'Question',
-        name: 'Is Grammar Lift by Max free?',
+        name: 'Is GrammarLift free?',
         acceptedAnswer: {
           '@type': 'Answer',
           text: 'Yes, all features are completely free: the placement test, grammar lessons, exercises, and games. There is no paywall or subscription required.',
@@ -45,10 +45,10 @@ export default function FAQPage() {
       },
       {
         '@type': 'Question',
-        name: 'How is Grammar Lift by Max different from Grammarly?',
+        name: 'How is GrammarLift different from Grammarly?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Grammar Lift by Max focuses on structured grammar learning with levels, interactive exercises, and games. Grammarly is a broader writing assistant for tone and style. Grammar Lift helps you learn grammar systematically, while Grammarly helps you polish writing in real time.',
+          text: 'GrammarLift focuses on structured grammar learning with levels, interactive exercises, and games. Grammarly is a broader writing assistant for tone and style. GrammarLift helps you learn grammar systematically, while Grammarly helps you polish writing in real time.',
         },
       },
       {
@@ -91,7 +91,7 @@ export default function FAQPage() {
             Frequently Asked <span className="text-grad">Questions</span>
           </h1>
           <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', maxWidth: '800px', margin: '0 auto' }}>
-            Everything you need to know about Grammar Lift by Max
+            Everything you need to know about GrammarLift
           </p>
         </section>
 
