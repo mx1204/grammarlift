@@ -31,6 +31,7 @@ const Navbar = () => {
           <Link href="/learn" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
           <Link href="/arena" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
           <Link href="/free-writing" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
+          <Link href="/about" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>About</Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -70,6 +71,7 @@ const Navbar = () => {
             <Link href="/speaking" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Speaking</Link>
             <Link href="/arena" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
             <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
+            <Link href="/about" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>About</Link>
         </div>
       )}
 
