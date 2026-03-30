@@ -3,12 +3,14 @@ import React from 'react';
 interface AppButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
   children: React.ReactNode;
 }
 
 const AppButton: React.FC<AppButtonProps> = ({ 
   variant = 'primary', 
   size = 'md', 
+  loading = false,
   children, 
   style,
   ...props 
@@ -24,10 +26,23 @@ const AppButton: React.FC<AppButtonProps> = ({
   return (
     <button 
       className={className} 
-      style={{ ...sizeStyles[size], ...style }}
+      style={{ ...sizeStyles[size], ...style, opacity: loading || props.disabled ? 0.7 : 1 }}
       {...props}
+      disabled={loading || props.disabled}
     >
-      {children}
+      {loading ? (
+        <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span className="spinner" style={{ 
+            width: '16px', 
+            height: '16px', 
+            border: '2px solid white', 
+            borderTopColor: 'transparent', 
+            borderRadius: '50%', 
+            animation: 'spin 1s linear infinite' 
+          }}></span>
+          Processing...
+        </span>
+      ) : children}
     </button>
   );
 };

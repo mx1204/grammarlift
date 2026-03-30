@@ -2,14 +2,28 @@
 
 import React, { useState } from 'react';
 import { scenarios } from '@/lib/scenario-data';
+import { interpersonalScenarios } from '@/lib/interpersonal-data';
 import GlassCard from '@/components/GlassCard';
 import Link from 'next/link';
 
 export default function ScenariosDirectory() {
   const [filter, setFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
-  const [categoryFilter, setCategoryFilter] = useState<'All' | 'Corporate' | 'Social' | 'Networking' | 'Negotiation'>('All');
+  const [categoryFilter, setCategoryFilter] = useState<'All' | 'Corporate' | 'Social' | 'Networking' | 'Negotiation' | 'Conflict' | 'Leadership'>('All');
 
-  const filteredScenarios = scenarios.filter(s => {
+  // Combine both types of scenarios for the directory
+  const allScenarios = [
+    ...scenarios.map(s => ({ ...s, type: 'multiple-choice' })),
+    ...interpersonalScenarios.map(s => ({ 
+      id: s.id, 
+      title: s.title, 
+      level: s.difficulty, 
+      category: s.category, 
+      context: s.context,
+      type: 'interpersonal'
+    }))
+  ];
+
+  const filteredScenarios = allScenarios.filter(s => {
     const levelMatch = filter === 'All' || s.level === filter;
     const categoryMatch = categoryFilter === 'All' || s.category === categoryFilter;
     return levelMatch && categoryMatch;
@@ -48,10 +62,10 @@ export default function ScenariosDirectory() {
         </div>
         
         <div style={{ display: 'flex', background: 'var(--card-bg)', padding: '4px', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
-          {['All', 'Corporate', 'Social', 'Networking', 'Negotiation'].map((c) => (
+          {['All', 'Corporate', 'Social', 'Networking', 'Negotiation', 'Conflict', 'Leadership'].map((c) => (
             <button
               key={c}
-              onClick={() => setCategoryFilter(c as 'All' | 'Corporate' | 'Social' | 'Networking' | 'Negotiation')}
+              onClick={() => setCategoryFilter(c as any)}
               style={{
                 padding: '0.6rem 1.25rem',
                 borderRadius: '8px',
@@ -97,11 +111,24 @@ export default function ScenariosDirectory() {
                 <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>{s.category}</span>
               </div>
               
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.75rem' }}>{s.title}</h3>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                {s.title}
+                {s.type === 'interpersonal' && (
+                  <span style={{ 
+                    fontSize: '0.65rem', 
+                    background: 'var(--primary)', 
+                    color: 'white', 
+                    padding: '2px 8px', 
+                    borderRadius: '4px',
+                    textTransform: 'uppercase',
+                    fontWeight: 800
+                  }}>AI Interactive</span>
+                )}
+              </h3>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', flex: 1 }}>{s.context}</p>
               
               <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', fontWeight: 600, fontSize: '0.9rem' }}>
-                Start Practice →
+                {s.type === 'interpersonal' ? 'Start Tone Training →' : 'Start Practice →'}
               </div>
             </GlassCard>
           </Link>

@@ -120,3 +120,59 @@ export async function getSpeakingFeedback(transcription: string, originalPrompt:
     }, 1500);
   });
 }
+
+export interface InterpersonalFeedback {
+  tone: string;
+  tactScore: number;
+  tactFeedback: string;
+  grammarFeedback: string;
+  refinedVersion: string;
+}
+
+export async function getInterpersonalFeedback(
+  text: string, 
+  scenarioPrompt: string, 
+  scenarioContext: string
+): Promise<InterpersonalFeedback> {
+  console.log("Analyzing interpersonal skills for:", text);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let tone = "Professional";
+      let tactScore = 9;
+      let tactFeedback = "Excellent! You matched the professional tone of the context and addressed the issue directly but politely.";
+      let grammarFeedback = "Your grammar is perfect.";
+      let refinedVersion = text;
+
+      const lowerText = text.toLowerCase();
+
+      if (lowerText.length < 15) {
+        tone = "Blunt";
+        tactScore = 4;
+        tactFeedback = "This response is a bit too short for a corporate setting. It might come across as dismissive or cold.";
+        refinedVersion = "Thank you for the update. I appreciate you bringing this to my attention, and I'll look into it right away.";
+      } else if (lowerText.includes("no") || lowerText.includes("cannot") || lowerText.includes("won't")) {
+        tone = "Direct/Potentially Negative";
+        tactScore = 6;
+        tactFeedback = "While clear, using direct negatives can sometimes sound harsh. Try 'softening' your refusal by explaining the constraint first.";
+        refinedVersion = text.replace(/no|cannot|won't/g, "I'm currently unable to... due to...");
+      } else if (lowerText.includes("please") || lowerText.includes("could you") || lowerText.includes("thank")) {
+        tone = "Polite and Collaborative";
+        tactScore = 10;
+        tactFeedback = "Great use of polite markers. This helps maintain a positive working relationship even when delivering tough news.";
+      }
+
+      if (lowerText.includes("i is") || lowerText.includes("you is")) {
+        grammarFeedback = "Subject-verb agreement error: 'I am' or 'You are'.";
+      }
+
+      resolve({
+        tone,
+        tactScore,
+        tactFeedback,
+        grammarFeedback,
+        refinedVersion
+      });
+    }, 1800);
+  });
+}
