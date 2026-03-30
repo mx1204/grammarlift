@@ -26,7 +26,7 @@ const Navbar = () => {
         
         {/* Desktop Menu */}
         <div className="hide-on-mobile" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <Link href="/scenarios" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
+          <Link href="/interpersonal" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Interpersonal</Link>
           <Link href="/speaking" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Speaking</Link>
           <Link href="/learn" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
           <Link href="/arena" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
@@ -66,7 +66,7 @@ const Navbar = () => {
           gap: '1.5rem',
           borderTop: '1px solid var(--card-border)'
         }}>
-            <Link href="/scenarios" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Scenarios</Link>
+            <Link href="/interpersonal" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Interpersonal</Link>
             <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
             <Link href="/speaking" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Speaking</Link>
             <Link href="/arena" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>

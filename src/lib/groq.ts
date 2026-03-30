@@ -176,3 +176,49 @@ export async function getInterpersonalFeedback(
     }, 1800);
   });
 }
+
+export interface GoldenReplyFeedback {
+  originalTone: string;
+  goldenReply: string;
+  explanation: string;
+  tactScore: number;
+}
+
+export async function getGoldenReply(text: string, context: string): Promise<GoldenReplyFeedback> {
+  console.log("Generating Golden Reply for:", text, "in context:", context);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let originalTone = "Direct & Informative";
+      let goldenReply = text;
+      let explanation = "Polished for professional clarity and impact.";
+      let tactScore = 10;
+
+      const lowerText = text.toLowerCase();
+      
+      if (lowerText.length < 10) {
+        originalTone = "Extremely Blunt";
+        goldenReply = `Hello, thank you for your message. Regarding ${context}, I wanted to let you know that I've received your request and will provide a full update shortly.`;
+        explanation = "Expanded the short message into a complete professional acknowledgment.";
+      } else if (lowerText.includes("late") || lowerText.includes("delay") || lowerText.includes("traffic")) {
+        originalTone = "Informal/Casual";
+        goldenReply = "I apologize for the delay. I am currently held up, but I am making every effort to arrive as quickly as possible. Thank you for your patience.";
+        explanation = "Replaced casual language with a formal apology and a commitment to resolution.";
+      } else if (lowerText.includes("no") || lowerText.includes("can't") || lowerText.includes("impossible")) {
+        originalTone = "Defensive/Negative";
+        goldenReply = `I appreciate the opportunity to help with ${context}. However, given my current commitments, I won't be able to take this on immediately. Could we perhaps revisit this later in the week?`;
+        explanation = "Softened the refusal with a 'Yes, but' approach, maintaining a collaborative spirit.";
+      } else {
+        goldenReply = `Thank you for reaching out. In regards to ${context}, ${text.charAt(0).toUpperCase() + text.slice(1)}. I believe this approach will ensure the best outcome for the team.`;
+        explanation = "Enclosed your intent within a professional frame that emphasizes team success.";
+      }
+
+      resolve({
+        originalTone,
+        goldenReply,
+        explanation,
+        tactScore
+      });
+    }, 2000);
+  });
+}
