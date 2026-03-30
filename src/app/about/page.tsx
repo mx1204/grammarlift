@@ -16,7 +16,7 @@ export default function AboutPage() {
         
         <GlassCard style={{ marginTop: '3rem', textAlign: 'left' }}>
           <p style={{ fontSize: '1.25rem', lineHeight: '1.7', marginBottom: '1.5rem' }}>
-            GrammarLift is a passion project by two CS students based in Singapore. 
+            GrammarLift is a passion project by two Computer Science students based in Singapore. 
             We’re obsessed with using AI to make English grammar intuitive, but we know 
             we haven’t caught every edge case yet.
           </p>
