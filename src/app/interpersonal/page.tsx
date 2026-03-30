@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { interpersonalScenarios } from '@/lib/interpersonal-data';
 import GlassCard from '@/components/GlassCard';
 import Link from 'next/link';
 import GoldenReplyGenerator from '@/components/GoldenReplyGenerator';
 
-export default function InterpersonalHubPage() {
+function InterpersonalContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const tab = searchParams.get('tab') || 'scenarios';
@@ -160,5 +160,17 @@ export default function InterpersonalHubPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function InterpersonalHubPage() {
+  return (
+    <Suspense fallback={
+      <div className="container" style={{ marginTop: '4rem', textAlign: 'center' }}>
+        <h2 className="animate-pulse">Loading Interpersonal Skills Hub...</h2>
+      </div>
+    }>
+      <InterpersonalContent />
+    </Suspense>
   );
 }
