@@ -198,7 +198,7 @@ export async function getGoldenReply(text: string, context: string): Promise<Gol
       
       if (lowerText.length < 10) {
         originalTone = "Extremely Blunt";
-        goldenReply = `Hello, thank you for your message. Regarding ${context}, I wanted to let you know that I've received your request and will provide a full update shortly.`;
+        goldenReply = `Hello, thank you for reaching out. I wanted to let you know that I've received your message and will provide a more detailed update shortly.`;
         explanation = "Expanded the short message into a complete professional acknowledgment.";
       } else if (lowerText.includes("late") || lowerText.includes("delay") || lowerText.includes("traffic")) {
         originalTone = "Informal/Casual";
@@ -206,11 +206,11 @@ export async function getGoldenReply(text: string, context: string): Promise<Gol
         explanation = "Replaced casual language with a formal apology and a commitment to resolution.";
       } else if (lowerText.includes("no") || lowerText.includes("can't") || lowerText.includes("impossible")) {
         originalTone = "Defensive/Negative";
-        goldenReply = `I appreciate the opportunity to help with ${context}. However, given my current commitments, I won't be able to take this on immediately. Could we perhaps revisit this later in the week?`;
+        goldenReply = `Thank you for the opportunity to assist with this. However, given my current commitments, I won't be able to take this on immediately. Could we perhaps revisit this later in the week?`;
         explanation = "Softened the refusal with a 'Yes, but' approach, maintaining a collaborative spirit.";
       } else {
-        goldenReply = `Thank you for reaching out. In regards to ${context}, ${text.charAt(0).toUpperCase() + text.slice(1)}. I believe this approach will ensure the best outcome for the team.`;
-        explanation = "Enclosed your intent within a professional frame that emphasizes team success.";
+        goldenReply = `Thank you for your message. ${text.charAt(0).toUpperCase() + text.slice(1)}. I believe this approach will ensure the best outcome for the project.`;
+        explanation = "Enclosed your intent within a professional frame that emphasizes results and professional courtesy.";
       }
 
       resolve({
