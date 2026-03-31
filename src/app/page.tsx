@@ -3,8 +3,32 @@ import GlassCard from "@/components/GlassCard";
 import Link from "next/link";
 
 export default function Home() {
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "GrammarLift",
+    "operatingSystem": "Web",
+    "applicationCategory": "EducationalApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "An AI-powered English grammar improvement platform providing CEFR-aligned placement tests and adaptive learning scenarios.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "150"
+    }
+  };
+
   return (
-    <div className="container animate-fade-in">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <div className="container animate-fade-in">
       {/* Hero Section */}
       <section className="section-padding" style={{ textAlign: 'center' }}>
         <h1 style={{ fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
@@ -93,5 +117,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+    </>
   );
 }

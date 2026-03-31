@@ -28,12 +28,12 @@ export default function FAQPage() {
         },
       },
       {
-        '@type': 'Question',
-        name: 'How does the placement test work?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The 5-minute adaptive quiz asks a series of questions and places you into one of three CEFR levels: A1-A2 (beginner), B1-B2 (intermediate), or C1-C2 (advanced). The platform then recommends lessons and exercises based on your level.',
-        },
+        "@type": "Question",
+        "name": "How does GrammarLift determine my English level?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GrammarLift uses an adaptive 5-minute placement quiz to align your proficiency with CEFR levels (A1 to C2)."
+        }
       },
       {
         '@type': 'Question',
