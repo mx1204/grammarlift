@@ -5,7 +5,7 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "GrammarLift | AI-Powered English Grammar Improvement",
-  description: "Personalized, level-appropriate grammar practice and feedback for English learners.",
+  description: "GrammarLift is an AI-powered educational platform designed for English language learners. It features an adaptive placement quiz aligned with the Common European Framework of Reference for Languages (CEFR), covering levels A1 through C2. The system provides real-time, level-aware feedback on writing scenarios, helping users improve grammar precision and stylistic nuance through personalized AI-driven insights and comprehensive rule libraries.",
 };
 
 export default function RootLayout({
