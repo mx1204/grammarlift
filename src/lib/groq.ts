@@ -387,7 +387,6 @@ export async function getGoldenReply(text: string, context: string, imageContext
         goldenReply = `${prefix}${text.charAt(0).toUpperCase() + text.slice(1)}. I believe this approach will ensure clarity and maintain our professional standards. ${closer}`;
         explanation = "Enclosed your intent within a professional frame that emphasizes quality and standard compliance.";
       }
-
       resolve({
         originalTone,
         goldenReply: goldenReply.trim(),
@@ -395,5 +394,165 @@ export async function getGoldenReply(text: string, context: string, imageContext
         tactScore
       });
     }, 1500);
+  });
+}
+
+export interface FreeWritingHighlight {
+  type: 'error' | 'suggestion';
+  text: string;
+  correction: string;
+  explanation: string;
+  start: number;
+  end: number;
+}
+
+export interface FreeWritingFeedback {
+  highlights: FreeWritingHighlight[];
+  tone: string;
+  toneExplanation: string;
+  score: number;
+}
+
+export async function getFreeWritingFeedback(text: string): Promise<FreeWritingFeedback> {
+  console.log("Analyzing free writing text:", text);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const lowerText = text.toLowerCase();
+      const highlights: FreeWritingHighlight[] = [];
+      let tone = "Professional & Balanced";
+      let toneExplanation = "Your message is polite, clear, and professional.";
+      let score = 90;
+
+      // 1. Interpersonal Tone Analysis (5+ patterns)
+      if (lowerText.length > 0) {
+        if (/\b(urgent|now|immediately|fix it|do it)\b/i.test(lowerText)) {
+          tone = "Demanding / Harsh";
+          toneExplanation = "This message may sound overly commanding. Consider adding 'Could you' or 'please' to soften the request.";
+          score -= 15;
+        } else if (/\b(actually|as i said|per my last|honestly)\b/i.test(lowerText)) {
+          tone = "Passive-Aggressive / Defensive";
+          toneExplanation = "Using phrases like 'per my last' can come across as frustrated in a professional context.";
+          score -= 10;
+        } else if (lowerText.length < 30 && (lowerText.includes("no") || lowerText.includes("wrong"))) {
+          tone = "Blunt / Negative";
+          toneExplanation = "This short response might sound dismissive or blunt. Try adding a brief explanation to maintain a collaboration spirit.";
+          score -= 20;
+        } else if (/\b(thanks|appreciate|please|happy to|collaborate|help)\b/i.test(lowerText)) {
+          tone = "Helpful & Collaborative";
+          toneExplanation = "Great use of polite markers! This builds strong working relationships.";
+          score += 5;
+        }
+      }
+
+      // 2. Grammar Pattern Detection (12+ patterns)
+      const patterns: Array<{
+        regex: RegExp;
+        correction: string;
+        explanation: string;
+        type: 'error' | 'suggestion';
+      }> = [
+        {
+          regex: /\b(he|she|it) don't\b/gi,
+          correction: "$1 doesn't",
+          explanation: "Third-person singular subjects use 'doesn't', not 'don't'.",
+          type: 'error'
+        },
+        {
+          regex: /\bi has\b/gi,
+          correction: "I have",
+          explanation: "'I' takes 'have', not 'has'.",
+          type: 'error'
+        },
+        {
+          regex: /\byesterday i go\b/gi,
+          correction: "yesterday I went",
+          explanation: "Use the past simple form 'went' when talking about yesterday.",
+          type: 'error'
+        },
+        {
+          regex: /\bgive it to me\b/gi,
+          correction: "could you please provide it?",
+          explanation: "Consider using a more formal and polite request in writing.",
+          type: 'suggestion'
+        },
+        {
+          regex: /\b(they|we) was\b/gi,
+          correction: "$1 were",
+          explanation: "Plural subjects ('they', 'we') take 'were', not 'was'.",
+          type: 'error'
+        },
+        {
+          regex: /\bi am agree\b/gi,
+          correction: "I agree",
+          explanation: "'Agree' is a verb on its own. You don't need 'am'.",
+          type: 'error'
+        },
+        {
+          regex: /\bmore better\b/gi,
+          correction: "better",
+          explanation: "Avoid double comparatives. 'Better' is already the comparative form.",
+          type: 'error'
+        },
+        {
+          regex: /\bgoed\b/gi,
+          correction: "went",
+          explanation: "The past tense of 'go' is 'went' (irregular).",
+          type: 'error'
+        },
+        {
+          regex: /\bsince 5 years\b/gi,
+          correction: "for 5 years",
+          explanation: "Use 'for' for durations and 'since' for specific points in time.",
+          type: 'error'
+        },
+        {
+          regex: /\bdid went\b/gi,
+          correction: "did go",
+          explanation: "After 'did', use the base form of the verb (go).",
+          type: 'error'
+        },
+        {
+          regex: /\bi look forward to see you\b/gi,
+          correction: "I look forward to seeing you",
+          explanation: "After 'look forward to', use the -ing form (seeing).",
+          type: 'error'
+        },
+        {
+          regex: /\banyways\b/gi,
+          correction: "anyway",
+          explanation: "'Anyway' is standard in formal writing; 'anyways' is informal.",
+          type: 'suggestion'
+        }
+      ];
+
+      // Run detection
+      patterns.forEach(p => {
+        let match;
+        // Reset regex state for global
+        p.regex.lastIndex = 0;
+        while ((match = p.regex.exec(text)) !== null) {
+          highlights.push({
+            type: p.type,
+            text: match[0],
+            correction: p.correction.replace('$1', match[1] || ''),
+            explanation: p.explanation,
+            start: match.index,
+            end: match.index + match[0].length
+          });
+          score -= 5;
+        }
+      });
+
+      // Cleanup and cap score
+      score = Math.max(0, Math.min(100, score));
+
+      resolve({
+        highlights: highlights.sort((a, b) => a.start - b.start),
+        tone,
+        toneExplanation,
+        score
+      });
+    }, 1800);
   });
 }
