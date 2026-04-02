@@ -41,7 +41,8 @@ export default function RootLayout({
         <footer className="glass" style={{ padding: '3rem 0', marginTop: '4rem' }}>
           <div className="container" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
             <p style={{ marginBottom: '0.5rem' }}>&copy; 2026 GrammarLift. All rights reserved.</p>
-            <p style={{ fontSize: '0.9rem' }}>
+            <p style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{ opacity: 0.7 }}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               Questions? Contact us at <a href="mailto:grammarlift@gmail.com" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600 }}>grammarlift@gmail.com</a>
             </p>
           </div>
