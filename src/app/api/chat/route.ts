@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
+    console.log("Chat Request Received. Message count:", messages?.length);
 
     if (!process.env.GROQ_API_KEY) {
       // Fallback if no key is found

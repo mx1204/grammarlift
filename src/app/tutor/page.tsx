@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import GlassCard from '@/components/GlassCard';
 import AppButton from '@/components/AppButton';
+import SpeechToText from '@/components/SpeechToText';
 import { getTutorResponse } from '@/lib/groq';
 
 interface Message {
@@ -17,13 +18,13 @@ export default function TutorPage() {
     {
       id: '1',
       role: 'assistant',
-      content: "Hi there! I'm your AI English Tutor. Let's practice your English! You can tell me about your day, or we can look at some grammar rules together. How are you feeling today?",
+      content: "Hi there! I'm your AI English Tutor. Click the mic and start speaking to practice! I'll listen and reply to you.",
       timestamp: new Date()
     }
   ]);
-  const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isSoundEnabled, setIsSoundEnabled] = useState(false);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true);
+  const [isListening, setIsListening] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Text to Speech function
@@ -51,18 +52,17 @@ export default function TutorPage() {
     }
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSend = async (text: string) => {
+    if (!text.trim() || isLoading) return;
 
     const userMsg: Message = {
       id: Date.now().toString(),
       role: 'user',
-      content: input,
+      content: text,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMsg]);
-    setInput('');
     setIsLoading(true);
 
     try {
@@ -135,52 +135,45 @@ export default function TutorPage() {
               )}
             </div>
 
-            {/* Input Bar */}
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-              <button 
-                onClick={() => {
-                  const newState = !isSoundEnabled;
-                  setIsSoundEnabled(newState);
-                  if (newState) speak("Sound enabled.");
-                  else window.speechSynthesis.cancel();
-                }}
-                style={{
-                  background: isSoundEnabled ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
-                  border: '1px solid var(--card-border)',
-                  borderRadius: '12px',
-                  width: '48px',
-                  height: '48px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  fontSize: '1.2rem',
-                  color: isSoundEnabled ? 'white' : 'inherit',
-                  transition: 'all 0.2s ease'
-                }}
-                title={isSoundEnabled ? "Disable Sound" : "Enable Sound"}
-              >
-                {isSoundEnabled ? '🔊' : '🔇'}
-              </button>
-              <input 
-                type="text" 
-                placeholder="Type your message..."
-                value={input}
-                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                onChange={(e) => setInput(e.target.value)}
-                style={{
-                  flex: 1,
-                  padding: '1rem 1.5rem',
-                  borderRadius: '12px',
-                  border: '1px solid var(--card-border)',
-                  background: 'rgba(255,255,255,0.05)',
-                  color: 'inherit',
-                  fontFamily: 'inherit',
-                  fontSize: '1rem',
-                  outline: 'none'
-                }}
-              />
-              <AppButton onClick={handleSend} disabled={isLoading} style={{ height: '48px' }}>Send</AppButton>
+            {/* Voice Controller */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '1rem 0' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <SpeechToText 
+                  onTranscriptChange={() => {}} 
+                  onStop={(text) => handleSend(text)} 
+                  isProcessing={isLoading} 
+                />
+                <button 
+                  onClick={() => {
+                    const newState = !isSoundEnabled;
+                    setIsSoundEnabled(newState);
+                    if (!newState) window.speechSynthesis.cancel();
+                  }}
+                  style={{
+                    background: isSoundEnabled ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
+                    border: '1px solid var(--card-border)',
+                    borderRadius: '50%',
+                    width: '50px',
+                    height: '50px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    fontSize: '1.2rem',
+                    color: isSoundEnabled ? 'white' : 'inherit',
+                    transition: 'all 0.2s ease',
+                    marginTop: '-2rem' // Align with the large mic button
+                  }}
+                  title={isSoundEnabled ? "Disable AI Voice" : "Enable AI Voice"}
+                >
+                  {isSoundEnabled ? '🔊' : '🔇'}
+                </button>
+              </div>
+              {!isLoading && !isListening && (
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                  Speak and your message will be sent automatically
+                </p>
+              )}
             </div>
           </GlassCard>
         </div>
