@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GlassCard from './GlassCard';
 import AppButton from './AppButton';
 import { getGoldenReply, GoldenReplyFeedback } from '@/lib/groq';
@@ -12,6 +12,15 @@ export default function GoldenReplyGenerator() {
   const [result, setResult] = useState<GoldenReplyFeedback | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [copyStatus, setCopyStatus] = useState<string | null>(null);
+  const [lastInput, setLastInput] = useState('');
+
+  useEffect(() => {
+    if (copyStatus) {
+      const timer = setTimeout(() => setCopyStatus(null), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [copyStatus]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -33,6 +42,7 @@ export default function GoldenReplyGenerator() {
   const handleGenerate = async () => {
     if (!input.trim()) return;
     setLoading(true);
+    setLastInput(input);
     try {
       const feedback = await getGoldenReply(input, context, imagePreview || undefined);
       setResult(feedback);
@@ -46,9 +56,18 @@ export default function GoldenReplyGenerator() {
   const copyToClipboard = () => {
     if (result) {
       navigator.clipboard.writeText(result.goldenReply);
-      alert('Golden Reply copied to clipboard!');
+      setCopyStatus('✓ Copied to clipboard!');
     }
   };
+
+  const getToneColor = (tone: string) => {
+    const lower = tone.toLowerCase();
+    if (lower.includes('blunt') || lower.includes('frustrated') || lower.includes('defensive')) return 'var(--error)';
+    if (lower.includes('apologetic') || lower.includes('casual') || lower.includes('vague')) return 'var(--secondary)';
+    return 'var(--success)';
+  };
+
+  const MAX_CHARS = 500;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -58,8 +77,8 @@ export default function GoldenReplyGenerator() {
           Type your raw thoughts or a blunt draft. Select a context, and our AI will craft a "Golden Version" that is tactful, professional, and impactful.
         </p>
 
-        <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
-          <div style={{ flex: 1 }}>
+        <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+          <div style={{ flex: '1 1 300px' }}>
             <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.5rem', textTransform: 'uppercase', opacity: 0.7 }}>
               Professional Context
             </label>
@@ -107,8 +126,6 @@ export default function GoldenReplyGenerator() {
                 fontSize: '0.85rem',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
-              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--card-border)'}
             >
               📸 {image ? 'Change Screenshot' : 'Add Context Screenshot'}
             </label>
@@ -121,7 +138,7 @@ export default function GoldenReplyGenerator() {
             position: 'relative', 
             display: 'inline-block',
             padding: '4px',
-            background: 'var(--primary-gradient)',
+            background: 'linear-gradient(135deg, var(--primary), var(--secondary))',
             borderRadius: '12px'
           }}>
             <img 
@@ -143,7 +160,7 @@ export default function GoldenReplyGenerator() {
                 width: '24px',
                 height: '24px',
                 borderRadius: '50%',
-                background: '#ef4444',
+                background: 'var(--error)',
                 color: 'white',
                 border: 'none',
                 cursor: 'pointer',
@@ -160,30 +177,38 @@ export default function GoldenReplyGenerator() {
           </div>
         )}
 
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="e.g., 'i'm late because traffic' or 'i won't do this task because i'm busy'"
-          style={{
-            width: '100%',
-            height: '150px',
-            padding: '1rem',
-            borderRadius: '12px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '2px solid var(--card-border)',
-            color: 'inherit',
-            fontFamily: 'inherit',
-            fontSize: '1.1rem',
-            resize: 'none',
-            marginBottom: '1.5rem',
-            outline: 'none',
-            transition: 'border-color 0.2s'
-          }}
-          onFocus={(e) => e.target.style.borderColor = 'var(--primary)'}
-          onBlur={(e) => e.target.style.borderColor = 'var(--card-border)'}
-        />
+        <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value.slice(0, MAX_CHARS))}
+            placeholder="e.g., 'i'm late because traffic' or 'i won't do this task because i'm busy'"
+            style={{
+              width: '100%',
+              height: '150px',
+              padding: '1rem',
+              borderRadius: '12px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '2px solid var(--card-border)',
+              color: 'inherit',
+              fontFamily: 'inherit',
+              fontSize: '1.1rem',
+              resize: 'none',
+              outline: 'none',
+              transition: 'border-color 0.2s'
+            }}
+          />
+          <div style={{ 
+            position: 'absolute', 
+            bottom: '10px', 
+            right: '10px', 
+            fontSize: '0.75rem', 
+            color: input.length >= MAX_CHARS ? 'var(--error)' : 'var(--text-muted)' 
+          }}>
+            {input.length} / {MAX_CHARS}
+          </div>
+        </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
           <AppButton 
             size="lg" 
             onClick={handleGenerate} 
@@ -200,39 +225,84 @@ export default function GoldenReplyGenerator() {
           <GlassCard style={{ 
             borderLeft: '6px solid var(--primary)', 
             padding: '2rem',
-            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(255, 255, 255, 0) 100%)'
+            background: 'linear-gradient(135deg, rgba(var(--primary-h), var(--primary-s), var(--primary-l), 0.05) 0%, rgba(255, 255, 255, 0) 100%)'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
-              <div>
-                <h5 style={{ textTransform: 'uppercase', fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>Your Original Tone</h5>
-                <span style={{ 
-                  background: 'rgba(168, 85, 247, 0.1)', 
-                  color: '#a855f7', 
-                  padding: '4px 12px', 
-                  borderRadius: '20px', 
-                  fontSize: '0.8rem', 
-                  fontWeight: 700 
-                }}>
-                  {result.originalTone}
-                </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem', flexWrap: 'wrap', gap: '1.5rem' }}>
+              <div style={{ display: 'flex', gap: '2rem' }}>
+                <div>
+                  <h5 style={{ textTransform: 'uppercase', fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>Detected Tone</h5>
+                  <span style={{ 
+                    background: `${getToneColor(result.originalTone)}20`, 
+                    color: getToneColor(result.originalTone), 
+                    padding: '4px 12px', 
+                    borderRadius: '20px', 
+                    fontSize: '0.8rem', 
+                    fontWeight: 700 
+                  }}>
+                    {result.originalTone}
+                  </span>
+                </div>
+                <div>
+                  <h5 style={{ textTransform: 'uppercase', fontSize: '0.75rem', opacity: 0.7, marginBottom: '0.5rem' }}>Tactical Score</h5>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div style={{ 
+                      width: '40px', 
+                      height: '40px', 
+                      borderRadius: '50%', 
+                      border: `3px solid ${result.tactScore > 7 ? 'var(--success)' : result.tactScore > 4 ? 'var(--secondary)' : 'var(--error)'}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 800,
+                      fontSize: '1rem'
+                    }}>
+                      {result.tactScore}
+                    </div>
+                    <span style={{ fontSize: '0.75rem', opacity: 0.6 }}>/ 10</span>
+                  </div>
+                </div>
               </div>
-              <AppButton variant="outline" size="sm" onClick={copyToClipboard}>
-                Copy Golden Copy
-              </AppButton>
+
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                {copyStatus && <span style={{ fontSize: '0.85rem', color: 'var(--success)', fontWeight: 600 }}>{copyStatus}</span>}
+                <AppButton variant="outline" size="sm" onClick={copyToClipboard}>
+                  Copy Result
+                </AppButton>
+                <AppButton variant="outline" size="sm" onClick={handleGenerate} disabled={loading}>
+                  Regenerate
+                </AppButton>
+              </div>
             </div>
 
-            <div style={{ marginBottom: '2rem' }}>
-              <h5 style={{ textTransform: 'uppercase', fontSize: '0.75rem', opacity: 0.7, marginBottom: '1rem' }}>✨ The Golden Version</h5>
-              <div style={{ 
-                fontSize: '1.25rem', 
-                fontWeight: 500, 
-                lineHeight: 1.6, 
-                padding: '1.5rem', 
-                background: 'rgba(255, 255, 255, 0.03)', 
-                borderRadius: '12px',
-                border: '1px dashed var(--primary)'
-              }}>
-                &quot;{result.goldenReply}&quot;
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
+              <div>
+                <h5 style={{ textTransform: 'uppercase', fontSize: '0.75rem', opacity: 0.7, marginBottom: '1rem' }}>Original Message</h5>
+                <div style={{ 
+                  fontSize: '1rem', 
+                  color: 'var(--text-muted)',
+                  padding: '1.5rem', 
+                  background: 'rgba(255, 255, 255, 0.02)', 
+                  borderRadius: '12px',
+                  border: '1px solid var(--card-border)',
+                  fontStyle: 'italic'
+                }}>
+                  &quot;{lastInput}&quot;
+                </div>
+              </div>
+              <div>
+                <h5 style={{ textTransform: 'uppercase', fontSize: '0.75rem', opacity: 0.7, marginBottom: '1rem' }}>✨ The Golden Version</h5>
+                <div style={{ 
+                  fontSize: '1.1rem', 
+                  fontWeight: 600, 
+                  lineHeight: 1.6, 
+                  padding: '1.5rem', 
+                  background: 'rgba(var(--primary-h), var(--primary-s), var(--primary-l), 0.05)', 
+                  borderRadius: '12px',
+                  border: '1px dashed var(--primary)',
+                  whiteSpace: 'pre-wrap'
+                }}>
+                  &quot;{result.goldenReply}&quot;
+                </div>
               </div>
             </div>
 
@@ -246,3 +316,4 @@ export default function GoldenReplyGenerator() {
     </div>
   );
 }
+

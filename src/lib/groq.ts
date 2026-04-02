@@ -315,41 +315,85 @@ export async function getGoldenReply(text: string, context: string, imageContext
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      let originalTone = "Direct & Informative";
-      let goldenReply = text;
-      let explanation = "Polished for professional clarity and impact.";
+      let originalTone = "Neutral";
+      let goldenReply = "";
+      let explanation = "";
       let tactScore = 10;
-
-      const lowerText = text.toLowerCase();
       
-      if (lowerText.length < 10) {
+      const lowerText = text.toLowerCase().trim();
+      const isShort = lowerText.length < 15;
+
+      // Tone Detection Logic
+      if (isShort) {
         originalTone = "Extremely Blunt";
-        goldenReply = `Hello, thank you for reaching out. I wanted to let you know that I've received your message and will provide a more detailed update shortly.`;
-        explanation = "Expanded the short message into a complete professional acknowledgment.";
-      } else if (lowerText.includes("late") || lowerText.includes("delay") || lowerText.includes("traffic")) {
-        originalTone = "Informal/Casual";
-        goldenReply = "I apologize for the delay. I am currently held up, but I am making every effort to arrive as quickly as possible. Thank you for your patience.";
-        explanation = "Replaced casual language with a formal apology and a commitment to resolution.";
-      } else if (lowerText.includes("no") || lowerText.includes("can't") || lowerText.includes("impossible")) {
-        originalTone = "Defensive/Negative";
-        goldenReply = `Thank you for the opportunity to assist with this. However, given my current commitments, I won't be able to take this on immediately. Could we perhaps revisit this later in the week?`;
-        explanation = "Softened the refusal with a 'Yes, but' approach, maintaining a collaborative spirit.";
+        tactScore = 4;
+      } else if (/\b(late|delay|traffic|sorry|apologies|behind)\b/i.test(lowerText)) {
+        originalTone = "Apologetic / Excuse-making";
+        tactScore = 7;
+      } else if (/\b(no|can't|impossible|won't|busy|unable|not going to)\b/i.test(lowerText)) {
+        originalTone = "Direct Refusal";
+        tactScore = 6;
+      } else if (/\b(just|actually|per my last|as stated|honestly|to be fair)\b/i.test(lowerText)) {
+        originalTone = "Passive-Aggressive / Defensive";
+        tactScore = 5;
+      } else if (/\b(wow|unbelievable|fix|now|immediate|bad|fail)\b/i.test(lowerText)) {
+        originalTone = "Emotional / Frustrated";
+        tactScore = 3;
+      } else if (/\b(hey|yo|dude|thanks|np|k|ok|lol)\b/i.test(lowerText)) {
+        originalTone = "Casual / Informal";
+        tactScore = 8;
+      } else if (/\b(do this|send it|tell me|i need|you should)\b/i.test(lowerText)) {
+        originalTone = "Commanding / Bossy";
+        tactScore = 5;
+      } else if (/\b(maybe|perhaps|i think|not sure|we'll see)\b/i.test(lowerText)) {
+        originalTone = "Vague / Non-committal";
+        tactScore = 7;
       } else {
-      if (imageContext) {
-        goldenReply = `Thank you for sharing the conversation context. Based on that, here is a refined response: ${text.charAt(0).toUpperCase() + text.slice(1)}. I've adjusted the tone to match the ongoing discussion for a more natural transition.`;
-        explanation = "Analyzed the provided screenshot for conversation flow and context. The tone has been harmonized with the previous messages.";
-      } else {
-        goldenReply = `Thank you for your message. ${text.charAt(0).toUpperCase() + text.slice(1)}.`;
-        explanation = "Enclosed your intent within a professional frame that emphasizes results and professional courtesy.";
+        originalTone = "Direct & Informative";
+        tactScore = 9;
       }
+
+      // Context-aware generation
+      const prefix = context === 'Email to Manager' ? "Dear Management, " : 
+                     context === 'Client Communication' ? "Hello, thank you for your patience. " :
+                     context === 'Team Chat (Slack/Teams)' ? "Hey team, " : "";
+      
+      const closer = context === 'Email to Manager' ? "\n\nBest regards,\n[Your Name]" :
+                     context === 'Client Communication' ? "\n\nPlease let me know if you have any further questions." :
+                     context === 'Networking Request' ? "\n\nI look forward to potentially connecting." : "";
+
+      if (imageContext) {
+        goldenReply = `Thank you for sharing the conversation context. ${prefix}I've reviewed the previous messages and regarding "${text}", I propose: ${text.charAt(0).toUpperCase() + text.slice(1)}. I've adjusted the tone to ensure a smooth transition in our ongoing discussion. ${closer}`;
+        explanation = "Analyzed the provided screenshot for conversation flow. The tone has been harmonized with the previous interaction for maximum tact.";
+      } else if (originalTone === "Extremely Blunt") {
+        goldenReply = `${prefix}Thank you for the update. I appreciate you bringing this to my attention. regarding your point about ${text}, I will ensure we address this promptly. ${closer}`;
+        explanation = "Expanded the blunt input into a professional acknowledgment that demonstrates proactive engagement.";
+      } else if (originalTone === "Apologetic / Excuse-making") {
+        goldenReply = `${prefix}I apologize for any inconvenience caused by the delay. I am currently focusing all efforts on resolving this as quickly as possible. Thank you for your continued patience. ${closer}`;
+        explanation = "Shifted the focus from the 'excuse' to the solution and appreciation for the other party's patience.";
+      } else if (originalTone === "Direct Refusal") {
+        goldenReply = `${prefix}Thank you for considering me for this. However, due to my current project commitments, I won't be able to prioritize this immediately. Could we perhaps revisit this later? ${closer}`;
+        explanation = "Used a 'Soft No' strategy. It maintains boundaries while remaining collaborative and open to future opportunities.";
+      } else if (originalTone === "Passive-Aggressive / Defensive") {
+        goldenReply = `${prefix}Thank you for the clarification. I appreciate the feedback and will take these points into account as we move forward to ensure the best outcome for the project. ${closer}`;
+        explanation = "Neutralized defensive language with growth-oriented phrasing that focuses on project outcomes rather than personal friction.";
+      } else if (originalTone === "Emotional / Frustrated") {
+        goldenReply = `${prefix}I understand there are some challenges with the current situation. I'd like to schedule a brief call to discuss how we can align our efforts and find a constructive path forward. ${closer}`;
+        explanation = "De-escalated emotional language by proposing a constructive communication channel (a call) and focusing on 'alignment'.";
+      } else if (context === 'Networking Request') {
+        goldenReply = `Hello, I've been following your work in the industry and was impressed by your recent insights. ${text.charAt(0).toUpperCase() + text.slice(1)}. I'd love to connect and learn more about your journey. ${closer}`;
+        explanation = "Transformed the request into a value-based networking approach by adding a personalized compliment and a clear intent.";
+      } else {
+        goldenReply = `${prefix}${text.charAt(0).toUpperCase() + text.slice(1)}. I believe this approach will ensure clarity and maintain our professional standards. ${closer}`;
+        explanation = "Enclosed your intent within a professional frame that emphasizes quality and standard compliance.";
       }
 
       resolve({
         originalTone,
-        goldenReply,
+        goldenReply: goldenReply.trim(),
         explanation,
         tactScore
       });
-    }, 2000);
+    }, 1500);
   });
 }
