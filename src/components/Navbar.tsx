@@ -24,17 +24,7 @@ const Navbar = () => {
           <span className="text-grad">GrammarLift</span>
         </Link>
         
-        {/* Desktop Menu */}
-        <div className="hide-on-mobile" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <Link href="/interpersonal" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Interpersonal</Link>
-          <Link href="/speaking" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Speaking</Link>
-          <Link href="/learn" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
-          <Link href="/arena" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
-          <Link href="/free-writing" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
-          <Link href="/about" style={{ fontWeight: 500, textDecoration: 'none', color: 'inherit' }}>About</Link>
-        </div>
-
-        {/* Mobile Toggle */}
+        {/* Universal Toggle Button */}
         <button 
           className="hide-on-desktop"
           onClick={() => setIsOpen(!isOpen)}
@@ -53,7 +43,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Universal Menu Overlay */}
       {isOpen && (
         <div className="glass animate-fade-in" style={{
           position: 'absolute',
