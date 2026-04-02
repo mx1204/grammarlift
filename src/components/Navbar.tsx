@@ -8,8 +8,11 @@ const Navbar = () => {
 
   return (
     <nav className="glass" style={{
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
+      left: 0,
+      right: 0,
+      width: 100%,
       zIndex: 100,
       padding: '1rem 0',
       marginBottom: '2rem'
@@ -19,7 +22,7 @@ const Navbar = () => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <Link href="/" style={{ fontSize: '1.5rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+        <Link href="/" style={{ fontSize: '2rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
           <span className="text-grad">GrammarLift</span>
         </Link>
         
