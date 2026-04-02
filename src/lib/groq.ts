@@ -5,6 +5,7 @@ export interface GroqFeedback {
   correction: string;
   explanation: string;
   example: string;
+  fluencyScore: number; // 0-100
 }
 
 /**
@@ -36,7 +37,8 @@ export async function getGrammarFeedback(text: string, level: string): Promise<G
         errorFound: true,
         correction: text.replace("don't", "doesn't"),
         explanation: `Groq Analysis: Third-person singular subjects require "doesn't" at the ${level} level.`,
-        example: "He doesn't like tea."
+        example: "He doesn't like tea.",
+        fluencyScore: 85
       });
     }, 1500);
   });
@@ -78,36 +80,159 @@ export async function getSpeakingFeedback(transcription: string, originalPrompt:
       let correction = transcription;
       let explanation = "Your speaking was clear and grammatically correct!";
       let example = "";
+      let fluencyScore = 90 + Math.floor(Math.random() * 10);
 
       const lowerText = transcription.toLowerCase();
 
       if (mode === 'shadowing') {
-        const lowerPrompt = originalPrompt.toLowerCase().replace(/[.,!?;]/g, '');
-        const cleanedTranscription = lowerText.replace(/[.,!?;]/g, '');
-        
-        if (cleanedTranscription !== lowerPrompt) {
+        // Word-level similarity comparison instead of exact match
+        const normalize = (s: string) => s.toLowerCase().replace(/[.,!?;:'"]/g, '').trim().split(/\s+/);
+        const promptWords = normalize(originalPrompt);
+        const spokenWords = normalize(transcription);
+
+        const promptSet = new Set(promptWords);
+        const spokenSet = new Set(spokenWords);
+        const intersection = new Set([...promptSet].filter(w => spokenSet.has(w)));
+        const union = new Set([...promptSet, ...spokenSet]);
+        const similarity = union.size > 0 ? intersection.size / union.size : 0;
+
+        // Find missing & extra words
+        const missed = promptWords.filter(w => !spokenSet.has(w));
+        const extra = spokenWords.filter(w => !promptSet.has(w));
+
+        fluencyScore = Math.round(similarity * 100);
+
+        if (similarity >= 0.95) {
+          // Near-perfect match
+          errorFound = false;
+          explanation = "Excellent shadowing! Your pronunciation closely matched the model sentence.";
+          fluencyScore = Math.max(fluencyScore, 92);
+        } else if (similarity >= 0.7) {
           errorFound = true;
           correction = originalPrompt;
-          explanation = "You missed a few words or changed the structure compared to the model sentence.";
+          const missedStr = missed.length > 0 ? `Missed words: "${missed.join('", "')}"` : '';
+          const extraStr = extra.length > 0 ? `Unexpected words: "${extra.join('", "')}"` : '';
+          explanation = `Close, but not quite! ${missedStr}${missedStr && extraStr ? '. ' : ''}${extraStr}. Try again to match the model more closely.`;
+          example = `Model: "${originalPrompt}"`;
+        } else {
+          errorFound = true;
+          correction = originalPrompt;
+          explanation = "Your response diverged significantly from the model sentence. Listen carefully and try to match each word.";
           example = `Model: "${originalPrompt}"`;
         }
       } else {
-        // Free response common error checks
-        if (lowerText.includes("he go") || lowerText.includes("she go")) {
-          errorFound = true;
-          correction = transcription.replace(/he go/i, "he goes").replace(/she go/i, "she goes");
-          explanation = "Remember to use the third-person singular 's' for present tense.";
-          example = "He goes to the gym every day.";
-        } else if (lowerText.includes("i has")) {
-          errorFound = true;
-          correction = transcription.replace(/i has/i, "I have");
-          explanation = "The first-person singular 'I' takes 'have', not 'has'.";
-          example = "I have a lot of work today.";
-        } else if (lowerText.includes("yesterday i go")) {
-          errorFound = true;
-          correction = transcription.replace(/yesterday i go/i, "yesterday I went");
-          explanation = "When talking about the past (yesterday), remember to use the past simple form 'went'.";
-          example = "Yesterday I went to the park.";
+        // Free response — expanded error pattern detection
+        const errorPatterns: Array<{
+          pattern: RegExp;
+          fix: (text: string) => string;
+          explanation: string;
+          example: string;
+          score: number;
+        }> = [
+          {
+            pattern: /\b(he|she|it) go\b/i,
+            fix: (t) => t.replace(/\b(he|she|it) go\b/gi, '$1 goes'),
+            explanation: "Remember to add '-s' or '-es' for third-person singular in present tense.",
+            example: "He goes to the gym every day.",
+            score: 75,
+          },
+          {
+            pattern: /\bi has\b/i,
+            fix: (t) => t.replace(/\bi has\b/gi, 'I have'),
+            explanation: "The first-person singular 'I' takes 'have', not 'has'.",
+            example: "I have a lot of work today.",
+            score: 80,
+          },
+          {
+            pattern: /\byesterday i go\b/i,
+            fix: (t) => t.replace(/\byesterday i go\b/gi, 'yesterday I went'),
+            explanation: "When talking about the past, use the past simple form of the verb.",
+            example: "Yesterday I went to the park.",
+            score: 70,
+          },
+          {
+            pattern: /\b(he|she|it) don't\b/i,
+            fix: (t) => t.replace(/\b(he|she|it) don't\b/gi, "$1 doesn't"),
+            explanation: "Third-person singular subjects use 'doesn't', not 'don't'.",
+            example: "She doesn't like coffee.",
+            score: 75,
+          },
+          {
+            pattern: /\bthey was\b/i,
+            fix: (t) => t.replace(/\bthey was\b/gi, 'they were'),
+            explanation: "Plural subjects ('they', 'we') use 'were', not 'was'.",
+            example: "They were at the park yesterday.",
+            score: 78,
+          },
+          {
+            pattern: /\bi (goed|runned|eated|writed|thinked|drived|comed|bringed)\b/i,
+            fix: (t) => {
+              const irregulars: Record<string, string> = { goed: 'went', runned: 'ran', eated: 'ate', writed: 'wrote', thinked: 'thought', drived: 'drove', comed: 'came', bringed: 'brought' };
+              return t.replace(/\bi (goed|runned|eated|writed|thinked|drived|comed|bringed)\b/gi, (_, v) => `I ${irregulars[v.toLowerCase()] || v}`);
+            },
+            explanation: "This verb has an irregular past tense form. It doesn't follow the regular '-ed' pattern.",
+            example: "I went to school. / I ran a marathon.",
+            score: 72,
+          },
+          {
+            pattern: /\bmore (better|worse|faster|slower|bigger|smaller|easier|harder)\b/i,
+            fix: (t) => t.replace(/\bmore (better|worse|faster|slower|bigger|smaller|easier|harder)\b/gi, '$1'),
+            explanation: "Don't use 'more' with comparative adjectives that already end in '-er'. This is a double comparative.",
+            example: "This is better (not 'more better').",
+            score: 76,
+          },
+          {
+            pattern: /\bi am agree\b/i,
+            fix: (t) => t.replace(/\bi am agree\b/gi, 'I agree'),
+            explanation: "'Agree' is used directly as a verb, not with 'am'. This is a common mistake with stative verbs.",
+            example: "I agree with your point.",
+            score: 80,
+          },
+          {
+            pattern: /\bsince (\d+|two|three|four|five|six|seven|eight|nine|ten) (year|month|week|day|hour)s?\b/i,
+            fix: (t) => t.replace(/\bsince (\d+|two|three|four|five|six|seven|eight|nine|ten) (year|month|week|day|hour)s?\b/gi, 'for $1 $2s'),
+            explanation: "Use 'for' with durations (for 3 years) and 'since' with specific points in time (since 2020).",
+            example: "I have lived here for 5 years. / I have lived here since 2019.",
+            score: 74,
+          },
+          {
+            pattern: /\b(he|she|it) have\b/i,
+            fix: (t) => t.replace(/\b(he|she|it) have\b/gi, '$1 has'),
+            explanation: "Third-person singular subjects use 'has', not 'have'.",
+            example: "She has a beautiful garden.",
+            score: 78,
+          },
+          {
+            pattern: /\bdid (went|saw|ate|ran|came|took|gave|made)\b/i,
+            fix: (t) => {
+              const baseForm: Record<string, string> = { went: 'go', saw: 'see', ate: 'eat', ran: 'run', came: 'come', took: 'take', gave: 'give', made: 'make' };
+              return t.replace(/\bdid (went|saw|ate|ran|came|took|gave|made)\b/gi, (_, v) => `did ${baseForm[v.toLowerCase()] || v}`);
+            },
+            explanation: "After 'did', use the base form of the verb, not the past tense. 'Did' already marks the past.",
+            example: "Did you go to the store? (not 'Did you went')",
+            score: 70,
+          },
+        ];
+
+        // Check each pattern
+        for (const ep of errorPatterns) {
+          if (ep.pattern.test(lowerText)) {
+            errorFound = true;
+            correction = ep.fix(transcription);
+            explanation = ep.explanation;
+            example = ep.example;
+            fluencyScore = ep.score;
+            break; // Report the first error found
+          }
+        }
+
+        // Short answer check
+        if (!errorFound && lowerText.length < 10) {
+          explanation = "Good start! Try to expand your answer with more detail for a better fluency score.";
+          fluencyScore = 60;
+        } else if (!errorFound && lowerText.length < 25) {
+          explanation = "Grammatically correct! Consider elaborating a bit more to practice longer sentence structures.";
+          fluencyScore = 78;
         }
       }
 
@@ -115,7 +240,8 @@ export async function getSpeakingFeedback(transcription: string, originalPrompt:
         errorFound,
         correction,
         explanation,
-        example
+        example,
+        fluencyScore
       });
     }, 1500);
   });
