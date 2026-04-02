@@ -23,7 +23,27 @@ export default function TutorPage() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Text to Speech function
+  const speak = (text: string) => {
+    if (!isSoundEnabled || typeof window === 'undefined') return;
+    
+    // Stop any current speech
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    
+    // Try to find a good English voice
+    const voices = window.speechSynthesis.getVoices();
+    const englishVoice = voices.find(v => v.lang.startsWith('en-US')) || voices.find(v => v.lang.startsWith('en'));
+    if (englishVoice) utterance.voice = englishVoice;
+    
+    window.speechSynthesis.speak(utterance);
+  };
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -58,6 +78,7 @@ export default function TutorPage() {
       };
 
       setMessages(prev => [...prev, assistantMsg]);
+      speak(response);
     } catch (error) {
       console.error("Tutor Error:", error);
     } finally {
@@ -115,7 +136,32 @@ export default function TutorPage() {
             </div>
 
             {/* Input Bar */}
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              <button 
+                onClick={() => {
+                  const newState = !isSoundEnabled;
+                  setIsSoundEnabled(newState);
+                  if (newState) speak("Sound enabled.");
+                  else window.speechSynthesis.cancel();
+                }}
+                style={{
+                  background: isSoundEnabled ? 'var(--primary)' : 'rgba(255,255,255,0.05)',
+                  border: '1px solid var(--card-border)',
+                  borderRadius: '12px',
+                  width: '48px',
+                  height: '48px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  fontSize: '1.2rem',
+                  color: isSoundEnabled ? 'white' : 'inherit',
+                  transition: 'all 0.2s ease'
+                }}
+                title={isSoundEnabled ? "Disable Sound" : "Enable Sound"}
+              >
+                {isSoundEnabled ? '🔊' : '🔇'}
+              </button>
               <input 
                 type="text" 
                 placeholder="Type your message..."
@@ -130,10 +176,11 @@ export default function TutorPage() {
                   background: 'rgba(255,255,255,0.05)',
                   color: 'inherit',
                   fontFamily: 'inherit',
+                  fontSize: '1rem',
                   outline: 'none'
                 }}
               />
-              <AppButton onClick={handleSend} disabled={isLoading}>Send</AppButton>
+              <AppButton onClick={handleSend} disabled={isLoading} style={{ height: '48px' }}>Send</AppButton>
             </div>
           </GlassCard>
         </div>

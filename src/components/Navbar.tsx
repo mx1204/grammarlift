@@ -59,6 +59,7 @@ const Navbar = () => {
           borderTop: '1px solid var(--card-border)',
           alignItems: 'center' // Optional: Centers the links on larger screens
         }}>
+            <Link href="/tutor" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>AI Tutor</Link>
             <Link href="/interpersonal" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Interpersonal</Link>
             <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
             <Link href="/speaking" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Speaking</Link>
