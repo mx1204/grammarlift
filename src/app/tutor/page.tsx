@@ -79,8 +79,17 @@ export default function TutorPage() {
 
       setMessages(prev => [...prev, assistantMsg]);
       speak(response);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Tutor Error:", error);
+      
+      const errorMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: `⚠️ Sorry, I encountered an error: ${error.message}. Please check your internet connection or API key.`,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMsg]);
+      speak("Sorry, I encountered an error. Please check the screen for details.");
     } finally {
       setIsLoading(false);
     }
@@ -129,7 +138,8 @@ export default function TutorPage() {
                 </div>
               ))}
               {isLoading && (
-                <div style={{ alignSelf: 'flex-start', background: 'var(--card-bg)', padding: '1rem', borderRadius: '12px', opacity: 0.6 }}>
+                <div style={{ alignSelf: 'flex-start', background: 'var(--card-bg)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--primary)', opacity: 0.8, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div className="loader-inner" style={{ width: '16px', height: '16px', border: '2px solid rgba(0,0,0,0.1)', borderTopColor: 'var(--primary)' }} />
                   AI is thinking...
                 </div>
               )}
