@@ -35,7 +35,7 @@ export default function RootLayout({
           />
         </noscript>
         <Navbar />
-        <main style={{ flex: 1, paddingTop: '100px' }}>
+        <main style={{ flex: 1, paddingTop: '85px' }}>
           {children}
         </main>
         <footer className="glass" style={{ padding: '3rem 0', marginTop: '4rem' }}>
