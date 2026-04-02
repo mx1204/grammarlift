@@ -40,7 +40,10 @@ export default function RootLayout({
         </main>
         <footer className="glass" style={{ padding: '3rem 0', marginTop: '4rem' }}>
           <div className="container" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-            <p>&copy; 2026 GrammarLift. All rights reserved.</p>
+            <p style={{ marginBottom: '0.5rem' }}>&copy; 2026 GrammarLift. All rights reserved.</p>
+            <p style={{ fontSize: '0.9rem' }}>
+              Questions? Contact us at <a href="mailto:grammarlift@gmail.com" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600 }}>grammarlift@gmail.com</a>
+            </p>
           </div>
         </footer>
       </body>
