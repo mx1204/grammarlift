@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import AppButton from './AppButton';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,9 +23,8 @@ const Navbar = () => {
           <span className="text-grad">GrammarLift</span>
         </Link>
         
-        {/* Universal Toggle Button */}
+        {/* Universal Toggle Button (Now shows on Desktop & Mobile) */}
         <button 
-          className="hide-on-desktop"
           onClick={() => setIsOpen(!isOpen)}
           style={{
             background: 'none',
@@ -38,6 +36,7 @@ const Navbar = () => {
             alignItems: 'center',
             color: 'var(--foreground)'
           }}
+          aria-label="Toggle menu"
         >
           {isOpen ? '✕' : '☰'}
         </button>
@@ -54,7 +53,8 @@ const Navbar = () => {
           display: 'flex',
           flexDirection: 'column',
           gap: '1.5rem',
-          borderTop: '1px solid var(--card-border)'
+          borderTop: '1px solid var(--card-border)',
+          alignItems: 'center' // Optional: Centers the links on larger screens
         }}>
             <Link href="/interpersonal" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Interpersonal</Link>
             <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
@@ -64,12 +64,6 @@ const Navbar = () => {
             <Link href="/about" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>About</Link>
         </div>
       )}
-
-      <style jsx>{`
-        @media (min-width: 769px) {
-          .hide-on-desktop { display: none !important; }
-        }
-      `}</style>
     </nav>
   );
 };
