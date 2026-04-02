@@ -44,7 +44,7 @@ export default function RootLayout({
             <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center' }}>
               <a 
                 href="mailto:grammarlift@gmail.com" 
-                className="glass"
+                className="glass footer-contact-btn"
                 style={{ 
                   display: 'inline-flex', 
                   alignItems: 'center', 
@@ -58,16 +58,6 @@ export default function RootLayout({
                   transition: 'all 0.3s ease',
                   border: '1px solid var(--card-border)',
                   boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.borderColor = 'var(--primary)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'var(--card-border)';
-                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.05)';
                 }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{ color: 'var(--primary)' }}>

@@ -397,3 +397,10 @@ h3 { font-size: clamp(1.5rem, 4vw, 2rem); }
     width: 100%;
   }
 }
+
+.footer-contact-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary) !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
