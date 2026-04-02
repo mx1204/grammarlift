@@ -41,10 +41,42 @@ export default function RootLayout({
         <footer className="glass" style={{ padding: '3rem 0', marginTop: '4rem' }}>
           <div className="container" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
             <p style={{ marginBottom: '0.5rem' }}>&copy; 2026 GrammarLift. All rights reserved.</p>
-            <p style={{ fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{ opacity: 0.7 }}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              Questions? Contact us at <a href="mailto:grammarlift@gmail.com" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600 }}>grammarlift@gmail.com</a>
-            </p>
+            <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+              <a 
+                href="mailto:grammarlift@gmail.com" 
+                className="glass"
+                style={{ 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  gap: '0.75rem', 
+                  padding: '0.8rem 1.5rem', 
+                  borderRadius: '30px', 
+                  textDecoration: 'none', 
+                  color: 'var(--foreground)', 
+                  fontWeight: 600,
+                  fontSize: '0.95rem',
+                  transition: 'all 0.3s ease',
+                  border: '1px solid var(--card-border)',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.borderColor = 'var(--primary)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'var(--card-border)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.05)';
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{ color: 'var(--primary)' }}>
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                <span>Email Support</span>
+              </a>
+            </div>
           </div>
         </footer>
       </body>
