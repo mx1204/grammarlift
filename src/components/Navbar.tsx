@@ -7,7 +7,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="glass" style={{
+    <>
+      <nav className="glass" style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -43,7 +44,8 @@ const Navbar = () => {
         >
           {isOpen ? '✕' : '☰'}
         </button>
-      </div>
+        </div>
+      </nav>
 
       {/* Universal Menu Overlay */}
       {isOpen && (
@@ -72,7 +74,7 @@ const Navbar = () => {
             <Link href="/about" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>About</Link>
         </div>
       )}
-    </nav>
+    </>
   );
 };
 
