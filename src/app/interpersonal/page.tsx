@@ -27,27 +27,27 @@ function InterpersonalContent() {
 
   return (
     <div className="container animate-fade-in" style={{ marginTop: '2rem', paddingBottom: '4rem' }}>
-      <header style={{ textAlign: 'center', marginBottom: '4rem' }}>
-        <h1 style={{ fontSize: '3.5rem', fontWeight: 800, marginBottom: '1rem' }}>Interpersonal Skills</h1>
-        <p style={{ fontSize: '1.25rem', opacity: 0.8, maxWidth: '750px', margin: '0 auto' }}>
+      <header style={{ textAlign: 'center', marginBottom: 'var(--section-py)' }}>
+        <h1 style={{ fontSize: 'var(--fs-h1)', fontWeight: 800, marginBottom: '1rem' }}>Interpersonal Skills</h1>
+        <p style={{ fontSize: 'var(--fs-hero-lead)', opacity: 0.8, maxWidth: '750px', margin: '0 auto' }}>
           Master the art of professional communication. Practice with real-world scenarios or use our AI to craft the perfect Golden Version of your messages.
         </p>
       </header>
 
       {/* Tab Navigation */}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3rem' }}>
-        <div style={{ display: 'flex', background: 'var(--card-bg)', padding: '6px', borderRadius: '16px', border: '1px solid var(--card-border)', width: 'fit-content' }}>
+        <div style={{ display: 'flex', background: 'var(--card-bg)', padding: '6px', borderRadius: '16px', border: '1px solid var(--card-border)', width: 'fit-content', flexWrap: 'wrap', justifyContent: 'center' }}>
           <button
             onClick={() => setTab('scenarios')}
             style={{
-              padding: '0.75rem 2rem',
+              padding: '0.75rem clamp(1rem, 4vw, 2rem)',
               borderRadius: '12px',
               background: tab === 'scenarios' ? 'var(--primary)' : 'transparent',
               color: tab === 'scenarios' ? 'white' : 'inherit',
               border: 'none',
               cursor: 'pointer',
               fontWeight: 700,
-              fontSize: '1rem',
+              fontSize: '0.95rem',
               transition: 'all 0.2s'
             }}
           >
@@ -56,14 +56,14 @@ function InterpersonalContent() {
           <button
             onClick={() => setTab('golden-reply')}
             style={{
-              padding: '0.75rem 2rem',
+              padding: '0.75rem clamp(1rem, 4vw, 2rem)',
               borderRadius: '12px',
               background: tab === 'golden-reply' ? 'var(--primary)' : 'transparent',
               color: tab === 'golden-reply' ? 'white' : 'inherit',
               border: 'none',
               cursor: 'pointer',
               fontWeight: 700,
-              fontSize: '1rem',
+              fontSize: '0.95rem',
               transition: 'all 0.2s'
             }}
           >
@@ -76,20 +76,20 @@ function InterpersonalContent() {
         <div className="animate-fade-in">
           {/* Filters */}
           <section style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', background: 'var(--card-bg)', padding: '4px', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
+            <div style={{ display: 'flex', background: 'var(--card-bg)', padding: '4px', borderRadius: '12px', border: '1px solid var(--card-border)', flexWrap: 'wrap', justifyContent: 'center' }}>
               {['All', 'Beginner', 'Intermediate', 'Advanced'].map((l) => (
                 <button
                   key={l}
                   onClick={() => setFilter(l as any)}
                   style={{
-                    padding: '0.5rem 1rem',
+                    padding: '0.5rem 0.75rem',
                     borderRadius: '8px',
                     background: filter === l ? 'var(--primary)' : 'transparent',
                     color: filter === l ? 'white' : 'inherit',
                     border: 'none',
                     cursor: 'pointer',
                     fontWeight: 600,
-                    fontSize: '0.9rem',
+                    fontSize: '0.85rem',
                     transition: 'all 0.2s'
                   }}
                 >
@@ -98,20 +98,20 @@ function InterpersonalContent() {
               ))}
             </div>
 
-            <div style={{ display: 'flex', background: 'var(--card-bg)', padding: '4px', borderRadius: '12px', border: '1px solid var(--card-border)' }}>
+            <div style={{ display: 'flex', background: 'var(--card-bg)', padding: '4px', borderRadius: '12px', border: '1px solid var(--card-border)', flexWrap: 'wrap', justifyContent: 'center' }}>
               {['All', 'Corporate', 'Social', 'Networking', 'Negotiation', 'Conflict', 'Leadership'].map((c) => (
                 <button
                   key={c}
                   onClick={() => setCategoryFilter(c as any)}
                   style={{
-                    padding: '0.5rem 1rem',
+                    padding: '0.5rem 0.75rem',
                     borderRadius: '8px',
                     background: categoryFilter === c ? 'var(--primary)' : 'transparent',
                     color: categoryFilter === c ? 'white' : 'inherit',
                     border: 'none',
                     cursor: 'pointer',
                     fontWeight: 600,
-                    fontSize: '0.9rem',
+                    fontSize: '0.85rem',
                     transition: 'all 0.2s'
                   }}
                 >
@@ -123,7 +123,7 @@ function InterpersonalContent() {
 
           <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', 
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
             gap: '2rem' 
           }}>
             {filteredScenarios.map((s) => (

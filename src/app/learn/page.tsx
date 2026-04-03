@@ -19,14 +19,14 @@ export default function LearnDirectoryPage() {
 
   return (
     <div className="container animate-fade-in" style={{ marginTop: '2rem' }}>
-      <header style={{ marginBottom: '3rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>Grammar Library</h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>Explore comprehensive rules, examples, and expert tips for every CEFR level.</p>
+      <header style={{ marginBottom: 'var(--section-py)' }}>
+        <h1 style={{ fontSize: 'var(--fs-h2)', fontWeight: 800, marginBottom: '0.5rem' }}>Grammar Library</h1>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-body)' }}>Explore comprehensive rules, examples, and expert tips for every CEFR level.</p>
       </header>
 
       {/* Search & Filter Bar */}
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
-        <div style={{ flex: 1, minWidth: '300px' }}>
+        <div style={{ flex: 1, minWidth: '280px' }}>
           <input
             type="text"
             placeholder="Search topics (e.g., 'tenses', 'articles')..."
@@ -44,7 +44,7 @@ export default function LearnDirectoryPage() {
             }}
           />
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           {['All', 'Beginner', 'Intermediate', 'Advanced'].map(lvl => (
             <button
               key={lvl}
@@ -67,7 +67,7 @@ export default function LearnDirectoryPage() {
       </div>
 
       {/* Results Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
         {filteredRules.map(rule => (
           <GlassCard key={rule.id} hover style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>

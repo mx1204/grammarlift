@@ -6,11 +6,11 @@ export default function ArenaPage() {
     <div className="container animate-fade-in">
       {/* Hero */}
       <section className="section-padding" style={{ textAlign: 'center', paddingBottom: '3rem' }}>
-        <div style={{ marginBottom: '1rem', fontSize: '3.5rem' }}>⚔️</div>
-        <h1 style={{ fontWeight: 800, marginBottom: '1rem', lineHeight: 1.1 }}>
+        <div style={{ marginBottom: '1rem', fontSize: 'clamp(2rem, 8vw, 3.5rem)' }}>⚔️</div>
+        <h1 style={{ fontSize: 'var(--fs-h1)', fontWeight: 800, marginBottom: '1rem', lineHeight: 1.1 }}>
           <span className="text-grad">Grammar Arena</span>
         </h1>
-        <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto 2.5rem' }}>
+        <p style={{ fontSize: 'var(--fs-hero-lead)', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto 2.5rem' }}>
           Learn grammar by doing battle. Every question teaches <em>why</em> — not just right or wrong.
         </p>
         <div style={{
@@ -26,7 +26,7 @@ export default function ArenaPage() {
       </section>
 
       {/* Game Mode Cards */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', paddingBottom: '5rem' }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', paddingBottom: '5rem' }}>
 
         {/* Grammar Dungeon */}
         <Link href="/arena/dungeon" style={{ textDecoration: 'none' }}>
@@ -36,9 +36,9 @@ export default function ArenaPage() {
               background: 'linear-gradient(90deg, var(--primary), var(--secondary))'
             }} />
             <div style={{ padding: '0.5rem 0 1.5rem' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🏰</div>
+              <div style={{ fontSize: 'clamp(2rem, 6vw, 3rem)', marginBottom: '1rem' }}>🏰</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-                <h2 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Grammar Dungeon</h2>
+                <h2 style={{ fontSize: 'var(--fs-h3)', fontWeight: 800 }}>Grammar Dungeon</h2>
                 <span style={{
                   background: 'linear-gradient(135deg, var(--primary), var(--secondary))',
                   color: 'white', padding: '0.2rem 0.75rem',
@@ -83,9 +83,9 @@ export default function ArenaPage() {
               background: 'linear-gradient(90deg, var(--secondary), var(--hp-color))'
             }} />
             <div style={{ padding: '0.5rem 0 1.5rem' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🆚</div>
+              <div style={{ fontSize: 'clamp(2rem, 6vw, 3rem)', marginBottom: '1rem' }}>🆚</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-                <h2 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Grammar Duel</h2>
+                <h2 style={{ fontSize: 'var(--fs-h3)', fontWeight: 800 }}>Grammar Duel</h2>
                 <span style={{
                   background: 'linear-gradient(135deg, hsl(280,80%,60%), hsl(0,80%,60%))',
                   color: 'white', padding: '0.2rem 0.75rem',
@@ -130,7 +130,7 @@ export default function ArenaPage() {
       </section>
 
       {/* How It Works */}
-      <section className="glass" style={{ borderRadius: '32px', padding: 'clamp(2rem, 5vw, 4rem)', marginBottom: '5rem' }}>
+      <section className="glass" style={{ borderRadius: '32px', padding: 'var(--card-p)', marginBottom: '5rem' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '0.75rem' }}>How Arena Works</h2>
         <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '3rem' }}>
           Every action teaches the <em>why</em> — not just the what.

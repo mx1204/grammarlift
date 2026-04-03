@@ -87,20 +87,20 @@ export default function FAQPage() {
       <div className="container animate-fade-in">
         {/* Hero Section - Simplified */}
         <section className="section-padding" style={{ textAlign: 'center' }}>
-          <h1 style={{ fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
+          <h1 style={{ fontSize: 'var(--fs-h1)', fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
             Frequently Asked <span className="text-grad">Questions</span>
           </h1>
-          <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', maxWidth: '800px', margin: '0 auto' }}>
+          <p style={{ fontSize: 'var(--fs-hero-lead)', color: 'var(--text-muted)', maxWidth: '800px', margin: '0 auto' }}>
             Everything you need to know about GrammarLift
           </p>
         </section>
 
-        {/* FAQ Grid - Using same style as "Curriculum Focused on You" section */}
-        <section className="section-padding glass" style={{ borderRadius: '32px', padding: 'clamp(2rem, 5vw, 4rem)' }}>
-          <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+        {/* FAQ Grid */}
+        <section className="section-padding glass" style={{ borderRadius: '32px', padding: 'var(--card-p)' }}>
+          <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {faqSchema.mainEntity.map((item, idx) => (
-              <div key={idx} style={{ padding: '1.5rem' }}>
-                <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', fontWeight: 600, color: 'var(--primary)' }}>
+              <div key={idx} style={{ padding: '1rem' }}>
+                <h3 style={{ fontSize: 'var(--fs-body)', marginBottom: '0.75rem', fontWeight: 600, color: 'var(--primary)', lineHeight: 1.4 }}>
                   {item.name}
                 </h3>
                 <p style={{ color: 'var(--text-muted)', lineHeight: 1.5 }}>

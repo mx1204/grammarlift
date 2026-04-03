@@ -16,15 +16,15 @@
 
   --accent-h: 160;
   --accent-s: 80%;
-  --accent-l: 50%;
-  --success: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+  --accent-h-l: 50%;
+  --success: hsl(var(--accent-h), var(--accent-s), var(--accent-h-l));
   
   --error-h: 0;
   --error-s: 80%;
   --error-l: 60%;
   --error: hsl(var(--error-h), var(--error-s), var(--error-l));
 
-  /* Light Mode */
+  /* Light Mode Defaults */
   --background: #f8fafc;
   --foreground: #0f172a;
   --card-bg: rgba(255, 255, 255, 0.8);
@@ -32,6 +32,16 @@
   --nav-bg: rgba(255, 255, 255, 0.7);
   --text-muted: #64748b;
   --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+
+  /* Responsive Sizing Variables */
+  --container-px: 1.5rem;
+  --section-py: 5rem;
+  --card-p: 2.5rem;
+  --fs-h1: clamp(2.5rem, 8vw, 4.2rem);
+  --fs-h2: clamp(2.2rem, 6vw, 3rem);
+  --fs-h3: clamp(1.6rem, 4vw, 2.2rem);
+  --fs-body: clamp(0.95rem, 2vw, 1.1rem);
+  --fs-hero-lead: clamp(1.1rem, 3vw, 1.35rem);
 }
 
 [data-theme='dark'] {
@@ -150,12 +160,12 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--container-px);
   width: 100%;
 }
 
 .section-padding {
-  padding: 5rem 0;
+  padding: var(--section-py) 0;
 }
 
 /* Responsive Utilities */
@@ -165,8 +175,18 @@ body {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --container-px: 1rem;
+    --section-py: 2.5rem;
+    --card-p: 1.25rem;
+    --fs-h1: 2rem;
+    --fs-h2: 1.7rem;
+    --fs-h3: 1.35rem;
+    --fs-hero-lead: 1rem;
+  }
+
   .section-padding {
-    padding: 3rem 0;
+    padding: var(--section-py) 0;
   }
   
   .responsive-grid {

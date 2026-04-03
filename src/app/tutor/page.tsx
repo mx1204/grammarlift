@@ -96,16 +96,16 @@ export default function TutorPage() {
   };
 
   return (
-    <div className="container animate-fade-in" style={{ marginTop: '2rem', height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column' }}>
-      <header style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>AI Conversational Tutor</h1>
+    <div className="container animate-fade-in" style={{ marginTop: '2rem', minHeight: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column', paddingBottom: '2rem' }}>
+      <header style={{ marginBottom: 'var(--section-py)' }}>
+        <h1 style={{ fontSize: 'var(--fs-h2)', fontWeight: 800, marginBottom: '0.5rem' }}>AI Conversational Tutor</h1>
         <p style={{ color: 'var(--text-muted)' }}>Practicing through natural conversation is the fastest way to improve.</p>
       </header>
 
-      <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem', overflow: 'hidden' }}>
+      <div className="responsive-grid" style={{ flex: 1, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '2rem', overflow: 'visible' }}>
         {/* Chat Main */}
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-          <GlassCard style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '1.5rem', marginBottom: '1rem', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '500px', height: '100%', overflow: 'hidden' }}>
+          <GlassCard style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 'var(--card-p)', marginBottom: '1rem', overflow: 'hidden' }}>
             <div 
               ref={scrollRef}
               style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingRight: '1rem', marginBottom: '1.5rem' }}
@@ -139,7 +139,7 @@ export default function TutorPage() {
               ))}
               {isLoading && (
                 <div style={{ alignSelf: 'flex-start', background: 'var(--card-bg)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--primary)', opacity: 0.8, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <div className="loader-inner" style={{ width: '16px', height: '16px', border: '2px solid rgba(0,0,0,0.1)', borderTopColor: 'var(--primary)' }} />
+                  <div className="loader-inner" style={{ width: '16px', height: '16px', border: '2px solid rgba(0,0,0,0.1)', borderTopColor: 'var(--primary)', animation: 'spin 1s linear infinite' }} />
                   AI is thinking...
                 </div>
               )}

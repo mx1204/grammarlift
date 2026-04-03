@@ -88,14 +88,14 @@ const FreeWritingPage = () => {
 
   return (
     <div className="container animate-fade-in" style={{ marginTop: '2rem', paddingBottom: '4rem' }}>
-      <header style={{ marginBottom: '3rem' }}>
-        <h1 style={{ fontWeight: 800, marginBottom: '0.5rem', fontSize: '3rem' }}>Free Writing Mode</h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>Paste any text and receive level-aware AI feedback on grammar and tone.</p>
+      <header style={{ marginBottom: 'var(--section-py)' }}>
+        <h1 style={{ fontWeight: 800, marginBottom: '0.5rem', fontSize: 'var(--fs-h1)' }}>Free Writing Mode</h1>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-body)' }}>Paste any text and receive level-aware AI feedback on grammar and tone.</p>
       </header>
 
-      <div className="responsive-grid" style={{ gridTemplateColumns: 'minmax(0, 1fr) 400px', gap: '2rem' }}>
+      <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: '2rem' }}>
         {/* Input area */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: 0 }}>
           <GlassCard style={{ padding: '0', position: 'relative', overflow: 'hidden' }}>
             <textarea
               value={text}
@@ -103,13 +103,13 @@ const FreeWritingPage = () => {
               placeholder="Paste your English text here..."
               style={{
                 width: '100%',
-                minHeight: '450px',
-                padding: '2rem',
+                minHeight: 'clamp(300px, 50vh, 450px)',
+                padding: 'var(--container-px)',
                 background: 'transparent',
                 border: 'none',
                 color: 'var(--foreground)',
                 fontFamily: 'inherit',
-                fontSize: '1.15rem',
+                fontSize: 'var(--fs-body)',
                 resize: 'vertical',
                 outline: 'none',
                 lineHeight: 1.7
@@ -139,6 +139,7 @@ const FreeWritingPage = () => {
                size="lg"
                onClick={handleAnalyze} 
                disabled={isAnalyzing || !text.trim()}
+               style={{ width: 'clamp(150px, 100%, 250px)' }}
              >
                {isAnalyzing ? 'Analyzing...' : 'Analyze Writing'}
              </AppButton>
@@ -153,7 +154,7 @@ const FreeWritingPage = () => {
                         <AppButton size="sm" variant="outline" onClick={applyAllChanges}>Apply All Fixes</AppButton>
                       )}
                    </div>
-                   <div style={{ fontSize: '1.15rem', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
+                   <div style={{ fontSize: 'var(--fs-body)', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
                       {renderAnnotatedText()}
                    </div>
                 </GlassCard>
@@ -189,9 +190,9 @@ const FreeWritingPage = () => {
           ) : result ? (
             <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {/* Score Card */}
-              <GlassCard style={{ textAlign: 'center', padding: '2rem' }}>
+              <GlassCard style={{ textAlign: 'center', padding: 'var(--card-p)' }}>
                 <h5 style={{ textTransform: 'uppercase', fontSize: '0.75rem', opacity: 0.7, marginBottom: '1rem' }}>Quality Score</h5>
-                <div style={{ fontSize: '3rem', fontWeight: 800, color: result.score > 80 ? 'var(--success)' : result.score > 60 ? 'var(--secondary)' : 'var(--error)' }}>
+                <div style={{ fontSize: 'var(--fs-h1)', fontWeight: 800, color: result.score > 80 ? 'var(--success)' : result.score > 60 ? 'var(--secondary)' : 'var(--error)' }}>
                   {result.score}
                 </div>
                 <p style={{ fontSize: '0.85rem', opacity: 0.6 }}>Based on grammar & professional clarity</p>

@@ -128,12 +128,12 @@ export default function SpeakingPage() {
 
   return (
     <div className="container animate-fade-in" style={{ marginTop: '3rem', paddingBottom: '6rem' }}>
-      <header style={{ marginBottom: '4rem', textAlign: 'center' }}>
+      <header style={{ marginBottom: 'var(--section-py)', textAlign: 'center' }}>
         <div className="badge-premium">AI Powered</div>
-        <h1 style={{ fontSize: '3.5rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>
+        <h1 style={{ fontSize: 'var(--fs-h1)', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>
           <span className="text-grad">Speaking Mode</span>
         </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-body)', maxWidth: '600px', margin: '0 auto' }}>
           Refine your English accent and grammar with real-time AI analysis.
         </p>
       </header>
@@ -170,7 +170,7 @@ export default function SpeakingPage() {
         {/* Session Complete Screen */}
         {isSessionComplete ? (
           <div className="animate-slide-up">
-            <GlassCard style={{ padding: '4rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+            <GlassCard style={{ padding: 'var(--card-p)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
               <div className="decorative-glow" />
               <div style={{ position: 'relative', zIndex: 2 }}>
                 <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>{grade.emoji}</div>
@@ -182,7 +182,7 @@ export default function SpeakingPage() {
                 </p>
 
                 {/* Score Ring */}
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(1rem, 5vw, 3rem)', flexWrap: 'wrap', marginBottom: '3rem' }}>
                   <div className="summary-stat">
                     <div className="stat-ring" style={{ borderColor: grade.color }}>
                       <span className="stat-ring-val">{avgScore}</span>
@@ -230,7 +230,7 @@ export default function SpeakingPage() {
           </div>
         ) : (
           <>
-            <GlassCard style={{ padding: '4rem', textAlign: 'center', marginBottom: '2.5rem', position: 'relative', overflow: 'hidden' }}>
+            <GlassCard style={{ padding: 'var(--card-p)', textAlign: 'center', marginBottom: '2.5rem', position: 'relative', overflow: 'hidden' }}>
               <div className="decorative-glow" />
               
               <div style={{ position: 'relative', zIndex: 2 }}>
@@ -392,7 +392,7 @@ export default function SpeakingPage() {
         }
 
         .prompt-text {
-          font-size: 2.2rem;
+          font-size: clamp(1.4rem, 6vw, 2.2rem);
           font-weight: 700;
           line-height: 1.3;
           letter-spacing: -0.5px;
@@ -551,8 +551,8 @@ export default function SpeakingPage() {
         }
 
         .stat-ring {
-          width: 100px;
-          height: 100px;
+          width: clamp(80px, 20vw, 100px);
+          height: clamp(80px, 20vw, 100px);
           border-radius: 50%;
           border: 5px solid;
           display: flex;

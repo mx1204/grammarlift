@@ -14,7 +14,7 @@ const Navbar = () => {
       right: 0,
       width: '100%',
       zIndex: 100,
-      padding: '1.1rem 0',
+      padding: '0.8rem 0',
       borderBottom: '1px solid var(--card-border)'
     }}>
       <div className="container" style={{
@@ -22,17 +22,17 @@ const Navbar = () => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <Link href="/" style={{ fontSize: '2.2rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
+        <Link href="/" style={{ fontSize: 'clamp(1.5rem, 5vw, 2.2rem)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
           <span className="text-grad">GrammarLift</span>
         </Link>
         
-        {/* Universal Toggle Button (Now shows on Desktop & Mobile) */}
+        {/* Universal Toggle Button */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
           style={{
             background: 'none',
             border: 'none',
-            fontSize: '1.75rem',
+            fontSize: '1.5rem',
             cursor: 'pointer',
             padding: '0.5rem',
             display: 'flex',
@@ -47,25 +47,29 @@ const Navbar = () => {
 
       {/* Universal Menu Overlay */}
       {isOpen && (
-        <div className="glass animate-fade-in" style={{
-          position: 'absolute',
-          top: '100%',
+        <div className="animate-fade-in" style={{
+          position: 'fixed',
+          top: '64px',
           left: 0,
           right: 0,
-          padding: '2rem',
+          bottom: 0,
+          padding: '2rem 1.5rem',
           display: 'flex',
           flexDirection: 'column',
           gap: '1.5rem',
           borderTop: '1px solid var(--card-border)',
-          alignItems: 'center' // Optional: Centers the links on larger screens
+          alignItems: 'center',
+          background: 'var(--background)', // Solid background for mobile
+          zIndex: 101,
+          overflowY: 'auto'
         }}>
-            <Link href="/tutor" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>AI Tutor</Link>
-            <Link href="/interpersonal" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Interpersonal</Link>
-            <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
-            <Link href="/speaking" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Speaking</Link>
-            <Link href="/arena" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
-            <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
-            <Link href="/about" onClick={() => setIsOpen(false)} style={{ fontSize: '1.65rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>About</Link>
+            <Link href="/tutor" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>AI Tutor</Link>
+            <Link href="/interpersonal" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Interpersonal</Link>
+            <Link href="/learn" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Learn</Link>
+            <Link href="/speaking" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Speaking</Link>
+            <Link href="/arena" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>⚔️ Arena</Link>
+            <Link href="/free-writing" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>Free Writing</Link>
+            <Link href="/about" onClick={() => setIsOpen(false)} style={{ fontSize: '1.25rem', fontWeight: 700, textDecoration: 'none', color: 'inherit' }}>About</Link>
         </div>
       )}
     </nav>

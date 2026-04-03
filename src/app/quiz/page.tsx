@@ -32,14 +32,14 @@ export default function QuizPage() {
 
   if (isFinished) {
     return (
-      <div className="container animate-fade-in" style={{ maxWidth: '600px', marginTop: '4rem' }}>
-        <GlassCard style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>🎉</div>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Quiz Complete!</h2>
-          <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
+      <div className="container animate-fade-in" style={{ maxWidth: '600px', marginTop: 'var(--section-py)' }}>
+        <GlassCard style={{ textAlign: 'center', padding: 'var(--card-p)' }}>
+          <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>🎉</div>
+          <h2 style={{ fontSize: 'var(--fs-h2)', marginBottom: '1rem' }}>Quiz Complete!</h2>
+          <p style={{ fontSize: 'var(--fs-body)', color: 'var(--text-muted)', marginBottom: '2rem' }}>
             Your calculated level is:
           </p>
-          <div className="text-grad" style={{ fontSize: '3.5rem', fontWeight: 800, marginBottom: '2rem' }}>
+          <div className="text-grad" style={{ fontSize: 'var(--fs-h1)', fontWeight: 800, marginBottom: '2rem' }}>
             {level}
           </div>
           <p style={{ marginBottom: '3rem', color: 'var(--text-muted)' }}>
@@ -70,8 +70,8 @@ export default function QuizPage() {
         </div>
       </div>
 
-      <GlassCard style={{ minHeight: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '2.5rem' }}>{currentQuestion.text}</h2>
+      <GlassCard style={{ minHeight: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'var(--card-p)' }}>
+        <h2 style={{ fontSize: 'var(--fs-h3)', marginBottom: '2.5rem' }}>{currentQuestion.text}</h2>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem' }}>
           {currentQuestion.options.map((option, index) => (
@@ -79,13 +79,13 @@ export default function QuizPage() {
               key={index}
               onClick={() => setSelectedOption(index)}
               style={{
-                padding: '1.25rem 1.5rem',
+                padding: '1rem 1.25rem',
                 borderRadius: '16px',
                 border: `2px solid ${selectedOption === index ? 'var(--primary)' : 'var(--card-border)'}`,
                 background: selectedOption === index ? 'var(--primary-light)' : 'transparent',
                 color: selectedOption === index ? 'var(--primary-dark)' : 'inherit',
                 textAlign: 'left',
-                fontSize: '1.1rem',
+                fontSize: 'var(--fs-body)',
                 fontWeight: selectedOption === index ? 600 : 400,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'

@@ -31,11 +31,11 @@ export default function Home() {
       <div className="container animate-fade-in">
       {/* Hero Section */}
       <section className="section-padding" style={{ textAlign: 'center' }}>
-        <h1 style={{ fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
+        <h1 style={{ fontSize: 'var(--fs-h1)', fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.1 }}>
           Elevate Your <span className="text-grad">English Grammar</span> <br />
           with AI Intelligence
         </h1>
-        <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '900px', margin: '0 auto 3rem', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 'var(--fs-hero-lead)', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '900px', margin: '0 auto 3rem', lineHeight: 1.6 }}>
           GrammarLift is an AI-powered educational platform designed for English language learners. It features an adaptive placement quiz aligned with the Common European Framework of Reference for Languages (CEFR), covering levels A1 through C2. The system provides real-time, level-aware feedback on writing scenarios, helping users improve grammar precision and stylistic nuance through personalized AI-driven insights and comprehensive rule libraries.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -50,7 +50,7 @@ export default function Home() {
 
       {/* Feature Grid */}
       <section className="section-padding">
-        <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
           <GlassCard hover>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎯</div>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Adaptive Placement</h3>
@@ -78,13 +78,13 @@ export default function Home() {
       </section>
 
       {/* CEFR Levels Section */}
-      <section className="section-padding glass" style={{ borderRadius: '32px', padding: 'clamp(2rem, 5vw, 4rem)' }}>
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h2 style={{ marginBottom: '1rem' }}>CEFR-Aligned Proficiency Levels (A1-C2)</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>We cover everything from foundational articles to advanced stylistic nuances.</p>
+      <section className="section-padding glass" style={{ borderRadius: '32px', padding: 'var(--card-p)' }}>
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <h2 style={{ fontSize: 'var(--fs-h2)', marginBottom: '1rem' }}>CEFR-Aligned Proficiency Levels (A1-C2)</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: 'var(--fs-body)' }}>We cover everything from foundational articles to advanced stylistic nuances.</p>
         </div>
         
-        <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
           <div style={{ padding: '1.5rem' }}>
             <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', color: 'var(--primary)' }}>Beginner (A1-A2)</h4>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>Foundational structures & basic tenses</p>

@@ -27,19 +27,19 @@ export default function ScenarioPlayerPage() {
         ← Back to Scenarios
       </Link>
       
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem' }}>
+      <div className="responsive-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '2rem' }}>
         <div>
           <header style={{ marginBottom: '2rem' }}>
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-              <span className="glass" style={{ fontSize: '0.75rem', padding: '4px 12px', borderRadius: '20px' }}>{scenario.category}</span>
-              <span className="glass" style={{ fontSize: '0.75rem', padding: '4px 12px', borderRadius: '20px' }}>{scenario.difficulty}</span>
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+              <span className="glass" style={{ fontSize: '0.7rem', padding: '4px 12px', borderRadius: '20px' }}>{scenario.category}</span>
+              <span className="glass" style={{ fontSize: '0.7rem', padding: '4px 12px', borderRadius: '20px' }}>{scenario.difficulty}</span>
             </div>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 800 }}>{scenario.title}</h1>
+            <h1 style={{ fontSize: 'var(--fs-h2)', fontWeight: 800 }}>{scenario.title}</h1>
           </header>
 
-          <GlassCard style={{ padding: '2rem', marginBottom: '2rem', borderLeft: '4px solid var(--primary)' }}>
-            <h3 style={{ marginBottom: '1rem' }}>The Situation</h3>
-            <p style={{ fontSize: '1.1rem', lineHeight: 1.6 }}>{scenario.context}</p>
+          <GlassCard style={{ padding: 'var(--card-p)', marginBottom: '2rem', borderLeft: '4px solid var(--primary)' }}>
+            <h3 style={{ marginBottom: '1rem', fontSize: 'var(--fs-h3)' }}>The Situation</h3>
+            <p style={{ fontSize: 'var(--fs-body)', lineHeight: 1.6 }}>{scenario.context}</p>
           </GlassCard>
 
           <div style={{ marginBottom: '3rem' }}>
@@ -58,11 +58,11 @@ export default function ScenarioPlayerPage() {
               }}>
                 {scenario.character.name[0]}
               </div>
-              <GlassCard style={{ flex: 1, padding: '1.5rem' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, display: 'block', marginBottom: '0.5rem', color: 'var(--primary)' }}>
+              <GlassCard style={{ flex: 1, padding: '1.25rem' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, display: 'block', marginBottom: '0.5rem', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   {scenario.character.name} ({scenario.character.role})
                 </span>
-                <p style={{ fontSize: '1.2rem', fontWeight: 500 }}>&quot;{scenario.prompt}&quot;</p>
+                <p style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', fontWeight: 500 }}>&quot;{scenario.prompt}&quot;</p>
               </GlassCard>
             </div>
           </div>
