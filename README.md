@@ -10,12 +10,6 @@ GrammarLift is an AI-driven web app that helps English learners improve grammar 
 - **CEFR-structured library** with practice items and explanations.
 - **SEO-friendly Next.js app** using the App Router and server components.
 
-## Live demo
-
-If deployed, include a live demo URL here. To add a screenshot or GIF, place the asset in `public/` and replace the image URL below.
-
-![App screenshot](public/screenshot-placeholder.png)
-
 ## Quick start
 
 Requirements: Node.js 18+ (recommended), npm/pnpm/yarn.
